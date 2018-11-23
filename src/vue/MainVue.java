@@ -48,16 +48,31 @@ public class MainVue extends JFrame {
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridLayout(4,1));
         JPanel nbPersonPanel = new JPanel();
-        nbPersonPanel.setLayout(new GridLayout(1,2));
+        nbPersonPanel.setLayout(new FlowLayout());
         nbPersonPanel.add(new JLabel("Nombre de livreurs"));
-        nbPersonPanel.add(new JButton());
+
+        JComboBox nbLivreurs = new JComboBox();
+        for(int i = 1; i < 15; i++)
+            nbLivreurs.addItem(""+i);
+        nbLivreurs.setMaximumSize( nbLivreurs.getPreferredSize() );
+        nbPersonPanel.add(nbLivreurs);
 
         JPanel startStimePanel = new JPanel();
-        startStimePanel.setLayout(new GridLayout(1,5));
+        startStimePanel.setLayout(new FlowLayout());
+
+        JComboBox heureDebut = new JComboBox();
+        for(int i = 1; i < 25; i++)
+            heureDebut.addItem(""+i);
+        heureDebut.setMaximumSize( heureDebut.getPreferredSize() );
         startStimePanel.add(new JLabel("Heure de début"));
-        startStimePanel.add(new TextField());
+        startStimePanel.add(heureDebut);
+
+        JComboBox minuteDebut = new JComboBox();
+        for(int i = 1; i < 61; i++)
+            minuteDebut.addItem(""+i);
+        minuteDebut.setMaximumSize( minuteDebut.getPreferredSize() );
         startStimePanel.add(new JLabel("h"));
-        startStimePanel.add(new TextField());
+        startStimePanel.add(minuteDebut);
         startStimePanel.add(new JLabel("min"));
 
 
