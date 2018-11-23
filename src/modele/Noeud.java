@@ -8,12 +8,13 @@ public class Noeud {
     private long id;
     private double latitude;
     private double longitude;
-    //private HashSet<Troncon> tronconsAdjacents;
+    private HashSet<Troncon> tronconsAdjacents;
 
     public Noeud(long id, double latitude, double longitude){
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.tronconsAdjacents = new HashSet<>();
     }
 
     public long getId() {
@@ -40,6 +41,14 @@ public class Noeud {
         this.longitude = longitude;
     }
 
+    public boolean addTronconAdjacent(Troncon troncon){
+        return this.tronconsAdjacents.add(troncon);
+    }
+
+    public HashSet<Troncon> getTronconsAdjacents(){
+        return this.tronconsAdjacents;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,6 +68,7 @@ public class Noeud {
                 "id=" + id +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                "}\r\n";
+                ", tronconsAdjacents=" + tronconsAdjacents +
+                '}';
     }
 }

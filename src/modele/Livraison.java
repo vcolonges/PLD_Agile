@@ -5,7 +5,7 @@ public class Livraison {
     private Noeud noeud;
     private int duree;
 
-    private Livraison(Noeud noeud, int duree){
+    public Livraison(Noeud noeud, int duree){
         this.noeud = noeud;
         this.duree = duree;
     }
@@ -24,5 +24,13 @@ public class Livraison {
 
     public void setDuree(int duree) {
         this.duree = duree;
+    }
+
+    @Override
+    public String toString() {
+        return "Livraison{" +
+                "noeud=" + noeud +
+                ", duree=" + duree +
+                '}';
     }
 }

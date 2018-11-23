@@ -1,5 +1,6 @@
 package xml_manager;
 
+import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import modele.Troncon;
@@ -16,7 +17,7 @@ import java.util.Date;
 
 public class XMLParser {
 
-    public Plan parsePlan(String lienFichier) throws Exception{
+    public static Plan parsePlan(String lienFichier) throws Exception{
         Plan plan = new Plan();
 
         File file = new File(lienFichier);
@@ -37,14 +38,16 @@ public class XMLParser {
 
         NodeList listTroncons = doc.getElementsByTagName("troncon");
         for (int i = 0; i < listTroncons.getLength(); i++){
-            if(!plan.addTroncon(parseTroncon(plan, listTroncons.item(i)))){
+            Troncon troncon = parseTroncon(plan, listTroncons.item(i));
+            if(!plan.addTroncon(troncon)){
                 throw new Exception("Présence d'un doublon de troncon.");
             }
+            troncon.getOrigine().addTronconAdjacent(troncon);
         }
         return plan;
     }
 
-    private Noeud parseNoeud(Node node) throws Exception {
+    private static Noeud parseNoeud(Node node) throws Exception {
 
         Element element = (Element) node;
 
@@ -81,7 +84,7 @@ public class XMLParser {
 
     }
 
-    private Troncon parseTroncon(Plan plan, Node node) throws Exception {
+    private static Troncon parseTroncon(Plan plan, Node node) throws Exception {
 
         Element element = (Element) node;
 
@@ -138,7 +141,7 @@ public class XMLParser {
         return new Troncon(origine,destination,longueur,nomRue);
     }
 
-    public Plan parseTrajets(String lienFichier, Plan plan) throws Exception {
+    public static Plan parseTrajets(String lienFichier, Plan plan) throws Exception {
 
         File file = new File(lienFichier);
 
@@ -149,32 +152,63 @@ public class XMLParser {
         doc.getDocumentElement().normalize();
 
         // Parse Entrepot
-        NodeList listEntrepot = doc.getElementsByTagName("entrepot");
+        NodeList listEntrepots = doc.getElementsByTagName("entrepot");
 
-        if(listEntrepot.getLength()>1){
+        if(listEntrepots.getLength()>1){
             throw new Exception("Présence de deux entrepôts");
         }
-        Node node = listEntrepot.item(0);
+        Node node = listEntrepots.item(0);
         Element element = (Element) node;
 
         long entrepot = Long.parseLong(element.getAttribute("adresse"));
         if(plan.getNoeuds().get(entrepot) == null){
             throw new Exception("Adresse de l'entrepot invalide");
         }
-        plan.setEntrepot(plan.getNoeuds().get(entrepot));
+        plan.setEntrepot(new Livraison(plan.getNoeuds().get(entrepot),0));
 
-        String stringHeureDepart = element.getAttribute("adresse");
+        String stringHeureDepart = element.getAttribute("heureDepart");
         Date heureDepart =new SimpleDateFormat("hh:mm:ss").parse(stringHeureDepart);
-        System.out.println(heureDepart);
         plan.setHeureDepart(heureDepart);
 
-        for (int i = 0; i < listEntrepot.getLength(); i++) {
-            if(!plan.addNoeud(parseNoeud(listEntrepot.item(i)))){
-                throw new Exception("Présence d'un doublon de noeud.");
-            }
+        NodeList listLivraisons = doc.getElementsByTagName("livraison");
+
+        for (int i = 0; i < listLivraisons.getLength(); i++) {
+            plan.addLivraison(parseLivraison(listLivraisons.item(i), plan));
         }
 
         return plan;
+    }
+
+    private static Livraison parseLivraison(Node node, Plan plan) throws Exception{
+        Element element = (Element) node;
+
+        /*
+         * Si l'attribut "adresse" n'existe pas OU est <= 0, throw Exception explicite
+         * /!\ Si l'attribut "adresse" fait plus de 19 caractères, throw NumberFormatException
+         */
+        long idAdresse;
+        if(element.getAttribute("adresse").equals("") ){
+            throw new Exception("Présence d'une livraison sans origine.");
+        }else if((idAdresse = Long.parseLong(element.getAttribute("adresse"))) <= 0) {
+            throw new Exception("Présence d'une adresse de livraison <= 0 .");
+        }
+        /*
+         * Si l'idOrigine ne correspond pas à un Noeud trouvé précédemment, throw Exception explicite
+         */
+        Noeud adresse;
+        if((adresse = plan.getNoeuds().get(idAdresse)) == null){
+            throw new Exception("Présence d'un id de noeud d'origine invalide.");
+        }
+
+        int duree;
+        if(element.getAttribute("duree").equals("") ){
+            throw new Exception("Présence d'une livraison sans duree.");
+        }else if((duree = Integer.parseInt(element.getAttribute("duree"))) < 0) {
+            throw new Exception("Présence d'une duree de livraison < 0 .");
+        }
+
+        return new Livraison(adresse, duree);
+
     }
 
 }

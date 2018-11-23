@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,12 +9,14 @@ public class Plan {
 
     private HashMap<Long, Noeud> noeuds;
     private HashSet<Troncon> troncons;
-    private Noeud entrepot;
+    private ArrayList<Livraison> livraisons;
+    private Livraison entrepot;
     private Date heureDepart;
 
     public Plan(){
         this.noeuds = new HashMap<>();
         this.troncons = new HashSet<>();
+        this.livraisons = new ArrayList<>();
     }
 
     public HashMap<Long, Noeud> getNoeuds(){
@@ -36,11 +39,19 @@ public class Plan {
         return this.troncons.add(troncon);
     }
 
-    public Noeud getEntrepot() {
+    public ArrayList<Livraison> getLivraisons() {
+        return livraisons;
+    }
+
+    public boolean addLivraison(Livraison livraison) {
+        return this.livraisons.add(livraison);
+    }
+
+    public Livraison getEntrepot() {
         return entrepot;
     }
 
-    public void setEntrepot(Noeud entrepot) {
+    public void setEntrepot(Livraison entrepot) {
         this.entrepot = entrepot;
     }
 
@@ -57,6 +68,9 @@ public class Plan {
         return "Plan{" +
                 "noeuds=" + noeuds +
                 ", troncons=" + troncons +
+                ", livraisons=" + livraisons +
+                ", entrepot=" + entrepot +
+                ", heureDepart=" + heureDepart +
                 '}';
     }
 }
