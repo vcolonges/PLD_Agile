@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Noeud {
 
@@ -39,33 +40,25 @@ public class Noeud {
         this.longitude = longitude;
     }
 
-
-
     @Override
-    public String toString() {
-        return "Noeud [id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Noeud noeud = (Noeud) o;
+        return id == noeud.id;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        return result;
+        return Objects.hash(id);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Noeud other = (Noeud) obj;
-        if (id != other.id)
-            return false;
-        return true;
+    public String toString() {
+        return "Noeud{" +
+                "id=" + id +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                "}\r\n";
     }
-
 }

@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Objects;
+
 public class Troncon {
 
     private Noeud origine;
@@ -39,6 +41,27 @@ public class Troncon {
         this.nomRue = nomRue;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Troncon troncon = (Troncon) o;
+        return Objects.equals(origine, troncon.origine) &&
+                Objects.equals(destination, troncon.destination);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(origine, destination);
+    }
 
+    @Override
+    public String toString() {
+        return "Troncon{" +
+                "origine=" + origine +
+                ", destination=" + destination +
+                ", longueur=" + longueur +
+                ", nomRue='" + nomRue + '\'' +
+                "}\r\n";
+    }
 }

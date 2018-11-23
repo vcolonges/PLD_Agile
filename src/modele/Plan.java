@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -7,6 +8,8 @@ public class Plan {
 
     private HashMap<Long, Noeud> noeuds;
     private HashSet<Troncon> troncons;
+    private Noeud entrepot;
+    private Date heureDepart;
 
     public Plan(){
         this.noeuds = new HashMap<>();
@@ -33,6 +36,27 @@ public class Plan {
         return this.troncons.add(troncon);
     }
 
+    public Noeud getEntrepot() {
+        return entrepot;
+    }
 
+    public void setEntrepot(Noeud entrepot) {
+        this.entrepot = entrepot;
+    }
 
+    public Date getHeureDepart() {
+        return heureDepart;
+    }
+
+    public void setHeureDepart(Date heureDepart) {
+        this.heureDepart = heureDepart;
+    }
+
+    @Override
+    public String toString() {
+        return "Plan{" +
+                "noeuds=" + noeuds +
+                ", troncons=" + troncons +
+                '}';
+    }
 }
