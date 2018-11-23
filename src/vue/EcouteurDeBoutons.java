@@ -21,6 +21,7 @@ public class EcouteurDeBoutons implements ActionListener{
         // Envoi au controleur du message correspondant au bouton clique
         switch (e.getActionCommand()) {
             case MainVue.CHARGER_PLAN:
+            case MainVue.CHARGER_LIVRAISON:
                 JFileChooser choix = new JFileChooser();
                 choix.setCurrentDirectory(new File("/"));
                 choix.changeToParentDirectory();
@@ -28,10 +29,13 @@ public class EcouteurDeBoutons implements ActionListener{
                 if (retour == JFileChooser.APPROVE_OPTION) {
                     // un fichier a été choisi (sortie par OK)
                     // chemin absolu du fichier choisi
-                    String lienPlan = choix.getSelectedFile().getAbsolutePath();
-                    controler.chargerPlan(lienPlan);
+                    String lien = choix.getSelectedFile().getAbsolutePath();
+                    if(e.getActionCommand() == MainVue.CHARGER_PLAN)
+                        controler.chargerPlan(lien);
+                    if(e.getActionCommand() == MainVue.CHARGER_LIVRAISON)
+                        controler.chargerLivraison(lien);
                 }
-            case MainVue.CHARGER_LIVRAISON: controler.chargerLivraison(); break;
+                break;
         }
     }
 }

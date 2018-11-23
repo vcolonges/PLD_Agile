@@ -12,7 +12,7 @@ public class MainVue extends JFrame {
 
     // Intitules des boutons de la fenetre
     protected final static String CHARGER_PLAN = "Charger un plan";
-    protected static final String CHARGER_LIVRAISON = "Ajouter un rectangle";
+    protected static final String CHARGER_LIVRAISON = "Charger les livraisons";
 
     private EcouteurDeBoutons ecouteurDeBoutons;
     private JMenuBar menuBar;
@@ -29,8 +29,8 @@ public class MainVue extends JFrame {
         ecouteurDeBoutons = new EcouteurDeBoutons(controler);
         JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
         JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
-        chargerPlanXML.addActionListener(ecouteurDeBoutons);
-        chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
+        //chargerPlanXML.addActionListener(ecouteurDeBoutons);
+        //chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
 
         JMenu fileMenu = new JMenu("Fichier");
         fileMenu.add(chargerPlanXML);
