@@ -4,6 +4,8 @@ import modele.Noeud;
 import modele.Plan;
 import modele.Troncon;
 
+import controler.Controler;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -11,18 +13,29 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class MainVue extends JFrame {
+
+    // Intitules des boutons de la fenetre
+    protected final static String CHARGER_PLAN = "Charger un plan";
+    protected static final String CHARGER_LIVRAISON = "Charger les livraisons";
+
+    private EcouteurDeBoutons ecouteurDeBoutons;
     private JMenuBar menuBar;
     private MapVue mapPanel;
-    public final static String CHARGER_PLAN = "Charger un plan";
-    public final static String CHARGER_LIVRAISON = "Charger des livraisons";
+
+    private Controler controler;
 
     public MainVue(){
 
         super("Application");
+        controler = new Controler();
+
         menuBar = new JMenuBar();
 
-        JMenuItem chargerPlanXML = new JMenuItem("Charger un plan");
-        JMenuItem chargerLivraisonXML = new JMenuItem("Charger des livraisons");
+        ecouteurDeBoutons = new EcouteurDeBoutons(controler);
+        JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
+        JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
+        chargerPlanXML.addActionListener(ecouteurDeBoutons);
+        chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
 
         JMenu fileMenu = new JMenu("Fichier");
         fileMenu.add(chargerPlanXML);
@@ -30,8 +43,6 @@ public class MainVue extends JFrame {
         menuBar.add(fileMenu);
 
         this.setJMenuBar(menuBar);
-        this.setSize(1200,900);
-        this.setVisible(true);
 
         BorderLayout mainLayout = new BorderLayout();
 
@@ -51,7 +62,6 @@ public class MainVue extends JFrame {
 
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridLayout(4,1));
-
         JPanel nbPersonPanel = new JPanel();
         nbPersonPanel.setLayout(new GridLayout(1,2));
         nbPersonPanel.add(new JLabel("Nombre de livreurs"));
@@ -71,6 +81,9 @@ public class MainVue extends JFrame {
         toolPanel.add(startStimePanel);
         this.add(mapPanel,BorderLayout.CENTER);
         this.add(toolPanel,BorderLayout.EAST);
+
+        this.setSize(1200,900);
+        this.setVisible(true);
 
     }
 }
