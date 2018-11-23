@@ -1,5 +1,9 @@
 package vue;
 
+import modele.Noeud;
+import modele.Plan;
+import modele.Troncon;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -32,7 +36,17 @@ public class MainVue extends JFrame {
         this.setLayout(mainLayout);
         mapPanel = new MapVue();
         mapPanel.setBackground(Color.BLUE);
-        mapPanel.add(new JButton("blblb"));
+        Plan p = new Plan();
+        Noeud n1 = new Noeud(1,10,10);
+        Noeud n2 = new Noeud(2,50,80);
+        Noeud n3 = new Noeud(3,100,50);
+        p.addNoeud(n1);
+        p.addNoeud(n2);
+        p.addNoeud(n3);
+        p.addTroncon(new Troncon(n1,n2,4,"Coucou"));
+        p.addTroncon(new Troncon(n2,n3,4,"Coucou"));
+        mapPanel.loadPlan(p);
+
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridLayout(4,1));
 

@@ -1,5 +1,7 @@
 package modele;
 
+import jdk.jshell.spi.ExecutionControl;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -33,6 +35,9 @@ public class Plan {
         return this.troncons.add(troncon);
     }
 
+    public double getMaxLat() throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Oops");
+    }
 
 
 }
