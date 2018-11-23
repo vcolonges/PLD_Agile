@@ -1,6 +1,7 @@
 package vue;
 
 import controler.Controler;
+import modele.Plan;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,18 +1,20 @@
 package modele;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Noeud {
 
     private long id;
     private double latitude;
     private double longitude;
-    //private HashSet<Troncon> tronconsAdjacents;
+    private HashSet<Troncon> tronconsAdjacents;
 
     public Noeud(long id, double latitude, double longitude){
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.tronconsAdjacents = new HashSet<>();
     }
 
     public long getId() {
@@ -39,33 +41,34 @@ public class Noeud {
         this.longitude = longitude;
     }
 
+    public boolean addTronconAdjacent(Troncon troncon){
+        return this.tronconsAdjacents.add(troncon);
+    }
 
+    public HashSet<Troncon> getTronconsAdjacents(){
+        return this.tronconsAdjacents;
+    }
 
     @Override
-    public String toString() {
-        return "Noeud [id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Noeud noeud = (Noeud) o;
+        return id == noeud.id;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        return result;
+        return Objects.hash(id);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Noeud other = (Noeud) obj;
-        if (id != other.id)
-            return false;
-        return true;
+    public String toString() {
+        return "Noeud{" +
+                "id=" + id +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", tronconsAdjacents=" + tronconsAdjacents +
+                '}';
     }
-
 }

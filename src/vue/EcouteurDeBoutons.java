@@ -33,7 +33,7 @@ public class EcouteurDeBoutons implements ActionListener{
                     if(e.getActionCommand() == MainVue.CHARGER_PLAN)
                         controler.chargerPlan(lien);
                     if(e.getActionCommand() == MainVue.CHARGER_LIVRAISON)
-                        controler.chargerLivraison(lien);
+                        controler.chargerLivraison(lien, controler.plan);
                 }
                 break;
         }
