@@ -35,8 +35,40 @@ public class Plan {
         return this.troncons.add(troncon);
     }
 
-    public double getMaxLat() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Oops");
+    public double getMaxLat(){
+        double max = -180;
+        for(Noeud n : noeuds.values())
+        {
+            if(max<n.getLatitude()) max = n.getLatitude();
+        }
+        return max;
+    }
+
+    public double getMaxLong(){
+        double max = -180;
+        for(Noeud n : noeuds.values())
+        {
+            if(max<n.getLongitude()) max = n.getLongitude();
+        }
+        return max;
+    }
+
+    public double getMinLat(){
+        double min = 180;
+        for(Noeud n : noeuds.values())
+        {
+            if(min<n.getLatitude()) min = n.getLatitude();
+        }
+        return min;
+    }
+
+    public double getMinLong(){
+        double min = 180;
+        for(Noeud n : noeuds.values())
+        {
+            if(min<n.getLongitude()) min = n.getLongitude();
+        }
+        return min;
     }
 
 
