@@ -13,6 +13,8 @@ import java.awt.event.ComponentEvent;
 public class MainVue extends JFrame {
     private JMenuBar menuBar;
     private MapVue mapPanel;
+    public final static String CHARGER_PLAN = "Charger un plan";
+    public final static String CHARGER_LIVRAISON = "Charger des livraisons";
 
     public MainVue(){
 

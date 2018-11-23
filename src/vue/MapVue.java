@@ -33,7 +33,6 @@ public class MapVue extends JPanel {
     public void loadPlan(Plan p)
     {
         plan = p;
-        int i++;
         resizePlan = new Plan();
         this.plan.getMaxLat();
         this.plan.getMaxLong();
@@ -51,8 +50,6 @@ public class MapVue extends JPanel {
             double newlatitude = (n.getLatitude()-minLatPlan)*(heightMap-2*PADDING)/(maxLatPlan-minLatPlan) + PADDING;
             double newLongitude = (n.getLongitude()-minLongPlan)*(widthMap-2*PADDING)/(maxLongPlan-minLongPlan) + PADDING;
             this.resizePlan.addNoeud(new Noeud(n.getId(),newlatitude,newLongitude));
-
-
         }
 
     }
