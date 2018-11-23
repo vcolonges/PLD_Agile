@@ -30,10 +30,15 @@ public class EcouteurDeBoutons implements ActionListener{
                     // un fichier a été choisi (sortie par OK)
                     // chemin absolu du fichier choisi
                     String lien = choix.getSelectedFile().getAbsolutePath();
-                    if(e.getActionCommand() == MainVue.CHARGER_PLAN)
-                        controler.chargerPlan(lien);
-                    if(e.getActionCommand() == MainVue.CHARGER_LIVRAISON)
-                        controler.chargerLivraison(lien, controler.plan);
+                    try {
+                        if (e.getActionCommand() == MainVue.CHARGER_PLAN)
+                            controler.chargerPlan(lien);
+                        if (e.getActionCommand() == MainVue.CHARGER_LIVRAISON) {
+                            controler.chargerLivraison(lien);
+                        }
+                    }catch(Exception e1){
+                        e1.printStackTrace();
+                    }
                 }
                 break;
         }

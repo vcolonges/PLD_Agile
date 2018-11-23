@@ -15,13 +15,13 @@ public class Controler {
     }
 
     public void chargerPlan(String lienPlan) throws Exception {
-        System.out.println("Plan : "+lienPlan);
+        //System.out.println("Plan : "+lienPlan);
         XMLParser.parsePlan(lienPlan);
     }
 
     public void chargerLivraison(String lienLivraisons) throws Exception {
-        System.out.println("Livraison : "+lienLivraisons);
-         XMLParser.parseTrajets(lienLivraisons, plan);
+        //System.out.println("Livraison : " + lienLivraisons);
+        XMLParser.parseTrajets(lienLivraisons, plan);
 
     }
 }
