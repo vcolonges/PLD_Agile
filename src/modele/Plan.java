@@ -62,7 +62,7 @@ public class Plan {
         double min = 180;
         for(Noeud n : noeuds.values())
         {
-            if(min<n.getLatitude()) min = n.getLatitude();
+            if(min>n.getLatitude()) min = n.getLatitude();
         }
         return min;
     }
@@ -71,7 +71,7 @@ public class Plan {
         double min = 180;
         for(Noeud n : noeuds.values())
         {
-            if(min<n.getLongitude()) min = n.getLongitude();
+            if(min>n.getLongitude()) min = n.getLongitude();
         }
         return min;
     }

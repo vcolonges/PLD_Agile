@@ -28,7 +28,9 @@ public class MainVue extends JFrame {
     public MainVue(){
 
         super("Application");
-        controler = new Controler(mapPanel.getPlan());
+        mapPanel = new MapVue();
+        controler = new Controler(mapPanel.getPlan(),this);
+        mapPanel.setControler(controler);
 
         menuBar = new JMenuBar();
 
@@ -48,18 +50,7 @@ public class MainVue extends JFrame {
         BorderLayout mainLayout = new BorderLayout();
 
         this.setLayout(mainLayout);
-        mapPanel = new MapVue();
         mapPanel.setBackground(Color.BLUE);
-        Plan p = new Plan();
-        Noeud n1 = new Noeud(1,10,10);
-        Noeud n2 = new Noeud(2,50,80);
-        Noeud n3 = new Noeud(3,100,50);
-        p.addNoeud(n1);
-        p.addNoeud(n2);
-        p.addNoeud(n3);
-        p.addTroncon(new Troncon(n1,n2,4,"Coucou"));
-        p.addTroncon(new Troncon(n2,n3,4,"Coucou"));
-        mapPanel.loadPlan(p);
 
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridLayout(4,1));
@@ -101,5 +92,9 @@ public class MainVue extends JFrame {
         this.setSize(1200,900);
         this.setVisible(true);
 
+    }
+
+    public MapVue getMapPanel() {
+        return mapPanel;
     }
 }
