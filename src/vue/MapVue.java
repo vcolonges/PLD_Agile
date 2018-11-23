@@ -28,12 +28,13 @@ public class MapVue extends JPanel {
             Noeud end = t.getDestination();
             g.drawLine((int)start.getLongitude(),(int)start.getLatitude(),(int)end.getLongitude(),(int)end.getLatitude());
         }
+
+
     }
 
     public void loadPlan(Plan p)
     {
         plan = p;
-        int i++;
         resizePlan = new Plan();
         this.plan.getMaxLat();
         this.plan.getMaxLong();
@@ -53,6 +54,34 @@ public class MapVue extends JPanel {
             this.resizePlan.addNoeud(new Noeud(n.getId(),newlatitude,newLongitude));
 
 
+        }
+
+        long originID;
+        long destinationID;
+
+        Noeud newOriginTroncon = null;
+        Noeud newDestinationTroncon = null;
+
+        for(Troncon t : this.plan.getTroncons()){
+            originID = t.getOrigine().getId();
+            destinationID = t.getDestination().getId();
+
+            for(Noeud n : this.resizePlan.getNoeuds().values()){
+                if(n.getId() == originID){
+                    newOriginTroncon = n;
+                    break;
+                }
+            }
+            for(Noeud n : this.resizePlan.getNoeuds().values()){
+                if(n.getId() == destinationID){
+                    newDestinationTroncon = n;
+                    break;
+                }
+            }
+
+            if(newOriginTroncon != null && newDestinationTroncon != null){
+                this.resizePlan.addTroncon(new Troncon(newOriginTroncon,newDestinationTroncon,t.getLongueur(),t.getNomRue()));
+            }
         }
 
     }
