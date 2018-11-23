@@ -29,8 +29,8 @@ public class MainVue extends JFrame {
         ecouteurDeBoutons = new EcouteurDeBoutons(controler);
         JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
         JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
-        //chargerPlanXML.addActionListener(ecouteurDeBoutons);
-        //chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
+        chargerPlanXML.addActionListener(ecouteurDeBoutons);
+        chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
 
         JMenu fileMenu = new JMenu("Fichier");
         fileMenu.add(chargerPlanXML);
@@ -38,8 +38,6 @@ public class MainVue extends JFrame {
         menuBar.add(fileMenu);
 
         this.setJMenuBar(menuBar);
-        this.setSize(1200,900);
-        this.setVisible(true);
 
         BorderLayout mainLayout = new BorderLayout();
 
@@ -49,7 +47,6 @@ public class MainVue extends JFrame {
         mapPanel.add(new JButton("blblb"));
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridLayout(4,1));
-
         JPanel nbPersonPanel = new JPanel();
         nbPersonPanel.setLayout(new GridLayout(1,2));
         nbPersonPanel.add(new JLabel("Nombre de livreurs"));
@@ -69,6 +66,9 @@ public class MainVue extends JFrame {
         toolPanel.add(startStimePanel);
         this.add(mapPanel,BorderLayout.CENTER);
         this.add(toolPanel,BorderLayout.EAST);
+
+        this.setSize(1200,900);
+        this.setVisible(true);
 
     }
 }
