@@ -10,8 +10,9 @@ import java.awt.*;
 public class MapVue extends JPanel {
 
     private Plan plan;
-
+    private Plan resizePlan;
     private final static int WIDTH_DOT = 10;
+    private final static int PADDING = 10;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -32,6 +33,29 @@ public class MapVue extends JPanel {
     public void loadPlan(Plan p)
     {
         plan = p;
+        int i++;
+        resizePlan = new Plan();
+        this.plan.getMaxLat();
+        this.plan.getMaxLong();
+
+        int heightMap = this.getSize().height;
+        int widthMap = this.getSize().width;
+
+        double minLatPlan = plan.getMinLat();
+        double minLongPlan = plan.getMinLong();
+        double maxLatPlan = plan.getMaxLat();
+        double maxLongPlan = plan.getMaxLong();
+
+
+        for (Noeud n : this.plan.getNoeuds().values()){
+            double newlatitude = (n.getLatitude()-minLatPlan)*(heightMap-2*PADDING)/(maxLatPlan-minLatPlan) + PADDING;
+            double newLongitude = (n.getLongitude()-minLongPlan)*(widthMap-2*PADDING)/(maxLongPlan-minLongPlan) + PADDING;
+            this.resizePlan.addNoeud(new Noeud(n.getId(),newlatitude,newLongitude));
+
+
+        }
+
     }
+
 
 }
