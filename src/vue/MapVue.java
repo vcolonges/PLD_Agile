@@ -66,22 +66,11 @@ public class MapVue extends JPanel {
             originID = t.getOrigine().getId();
             destinationID = t.getDestination().getId();
 
-            for(Noeud n : this.resizePlan.getNoeuds().values()){
-                if(n.getId() == originID){
-                    newOriginTroncon = n;
-                    break;
-                }
-            }
-            for(Noeud n : this.resizePlan.getNoeuds().values()){
-                if(n.getId() == destinationID){
-                    newDestinationTroncon = n;
-                    break;
-                }
-            }
+            newOriginTroncon = this.resizePlan.getNoeuds().get(originID);
+            newDestinationTroncon = this.resizePlan.getNoeuds().get(destinationID);
 
-            if(newOriginTroncon != null && newDestinationTroncon != null){
-                this.resizePlan.addTroncon(new Troncon(newOriginTroncon,newDestinationTroncon,t.getLongueur(),t.getNomRue()));
-            }
+            this.resizePlan.addTroncon(new Troncon(newOriginTroncon,newDestinationTroncon,t.getLongueur(),t.getNomRue()));
+
         }
 
     }
