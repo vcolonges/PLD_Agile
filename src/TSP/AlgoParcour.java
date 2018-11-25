@@ -5,7 +5,6 @@ import modele.Noeud;
 import modele.Troncon;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 class Chemin
@@ -61,51 +60,15 @@ public class AlgoParcour
       }
       return result;
    }
-  //calculer les chemin pour chaque livraison
-   HashSet<Livraison> calculCheminLivraison(HashMap<Long, Noeud> noeuds, HashSet<Livraison> livraisons)
-   {
-      for (Livraison livraison:livraisons) {
-         for(Livraison targetLiv:livraisons)
-         {
-            if(livraison!=targetLiv)
-            {
-               //livraison.setChemin( calculchemin(livraison.getNoeud(), targetLiv.getNoeud()));
-            }
-         }
-      }
-      return livraisons;
-   }
-
-  /* HashSet<HashSet<Livraison>> toCircle(HashSet<Livraison> livraisons, int nbrLivreur)
-   {
-       HashSet<HashSet<Livraison>> result = new HashSet<HashSet<Livraison>>();
-       Iterator<Livraison> iterator = livraisons.iterator();
-       for(int i = 0; i < nbrLivreur; i++)
-       {
-           HashSet<Livraison> tmpSet =new HashSet<Livraison>();
-           for(int j = 0; j < livraisons.size() / nbrLivreur; j++)
-           {
-                tmpSet.add(iterator.next());
-           }
-           result.add(tmpSet);
-       }
-       Iterator<HashSet<Livraison>> iteratorResult = result.iterator();
-       while(iterator.hasNext())
-       {
-           iteratorResult.next().add(iterator.next());
-       }
-
-       return result;
-   }*/
 
   //Calculer la distance entre 2 points.
-    Double PointsDistance(double x1, double y1, double x2, double y2)
+  private Double PointsDistance(double x1, double y1, double x2, double y2)
     {
         return Math.sqrt(Math.pow(2.0,(x2-x1)) + Math.pow(2.0,(y2-y1)));
     }
 
     //calculer les données d'un cercle
-    ArrayList<Double> initCircleData(ArrayList<Double> circleData, ArrayList<Livraison> circle)
+    private ArrayList<Double> initCircleData(ArrayList<Double> circleData, ArrayList<Livraison> circle)
     {
         ArrayList<Double> tmpCircleData=null;
         circleData.add(circle.get(0).getNoeud().getLatitude());
@@ -130,7 +93,7 @@ public class AlgoParcour
     }
 
     //Mettre à jour les données d'un cercle
-    ArrayList<Double> MAJCircleData(Noeud curNoeud,  ArrayList<Double> circleData)
+    private ArrayList<Double> MAJCircleData(Noeud curNoeud, ArrayList<Double> circleData)
     {
         double distanceToPoint1 = PointsDistance( curNoeud.getLatitude(), curNoeud.getLongitude(),circleData.get(0),circleData.get(1));
         double distanceToPoint2 = PointsDistance( curNoeud.getLatitude(), curNoeud.getLongitude(),circleData.get(2),circleData.get(3));
@@ -155,7 +118,7 @@ public class AlgoParcour
 
     //separer l'ensemble de livraisons en n listes de taille k correspondant au nombre de livraisons
     //chaque liste represente un cercle avec la plus grande densité des k livraison adjacent
-    ArrayList<ArrayList<Livraison>> toCircle(ArrayList<Livraison> livraisons, int nbrLivreur)
+    private ArrayList<ArrayList<Livraison>> toCircle(ArrayList<Livraison> livraisons, int nbrLivreur)
     {
         //stocker aleatoirement k livraisons en nbrLivreur listes
         ArrayList<ArrayList<Livraison>> result = new ArrayList<ArrayList<Livraison>>();
@@ -255,7 +218,7 @@ public class AlgoParcour
 
 
 
-  ArrayList<ArrayList<Livraison>> getLivraisons (HashSet<Livraison> livraisons, int nbrLivreur)
+  public ArrayList<ArrayList<Livraison>> getLivraisons(HashSet<Livraison> livraisons, int nbrLivreur)
   {
     ArrayList<Livraison> listLivraisons = new ArrayList<>(livraisons);
 
