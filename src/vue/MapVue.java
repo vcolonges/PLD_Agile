@@ -7,6 +7,8 @@ import modele.Troncon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class MapVue extends JPanel {
 
@@ -14,8 +16,13 @@ public class MapVue extends JPanel {
     private Controler controler;
     private Plan plan;
     private Plan resizePlan;
+    private Queue<Noeud> hoveredNodes;
+
     private final static int WIDTH_DOT = 10;
     private final static int PADDING = 10;
+
+    public MapVue(){
+        hoveredNodes = new LinkedBlockingDeque<>();}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -23,12 +30,18 @@ public class MapVue extends JPanel {
         g.setColor(Color.BLACK);
         if(resizePlan != null) {
             for (Noeud n : resizePlan.getNoeuds().values()) {
-                g.drawOval((int) n.getLongitude() - WIDTH_DOT / 2, (int) n.getLatitude() - WIDTH_DOT / 2, WIDTH_DOT, WIDTH_DOT);
+                g.fillOval((int) n.getLongitude() - WIDTH_DOT / 2, (int) n.getLatitude() - WIDTH_DOT / 2, WIDTH_DOT, WIDTH_DOT);
             }
             for (Troncon t : resizePlan.getTroncons()) {
                 Noeud start = t.getOrigine();
                 Noeud end = t.getDestination();
                 g.drawLine((int) start.getLongitude(), (int) start.getLatitude(), (int) end.getLongitude(), (int) end.getLatitude());
+            }
+            g.setColor(Color.RED);
+            while(!hoveredNodes.isEmpty())
+            {
+                Noeud hoveredNode = hoveredNodes.poll();
+                g.fillOval((int)hoveredNode.getLongitude() - WIDTH_DOT/2,(int)hoveredNode.getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
         }
 
@@ -86,4 +99,21 @@ public class MapVue extends JPanel {
         return plan;
     }
 
+    public void onMouseMove(Point point) {
+        if(resizePlan == null) return;
+
+        for(Noeud n : resizePlan.getNoeuds().values())
+        {
+            if(point.x <= n.getLongitude()+WIDTH_DOT/2 && point.x >= n.getLongitude()-WIDTH_DOT/2)
+            {
+                if(point.y <= n.getLatitude()+WIDTH_DOT/2 && point.y >= n.getLatitude()-WIDTH_DOT/2)
+                {
+                    hoveredNodes.add(n);
+                    this.repaint();
+                    //this.repaint((int)n.getLongitude()-WIDTH_DOT/2,(int)n.getLatitude()+WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
+                }
+            }
+        }
+
+    }
 }

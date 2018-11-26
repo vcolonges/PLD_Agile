@@ -20,21 +20,33 @@ public class MainVue extends JFrame {
     protected static final String CHARGER_LIVRAISON = "Charger les livraisons";
 
     private EcouteurDeBoutons ecouteurDeBoutons;
+    private EcouteurDeSouris ecouteurDeSouris;
     private JMenuBar menuBar;
     private MapVue mapPanel;
+    private JLabel XPosition;
+    private JLabel YPosition;
 
     private Controler controler;
 
     public MainVue(){
 
         super("Application");
+
+        // Init map et controleur
         mapPanel = new MapVue();
         controler = new Controler(mapPanel.getPlan(),this);
         mapPanel.setControler(controler);
 
+        // Création de la menubar
         menuBar = new JMenuBar();
 
+        // Crétion des listener
         ecouteurDeBoutons = new EcouteurDeBoutons(controler);
+        ecouteurDeSouris = new EcouteurDeSouris(controler);
+        mapPanel.addMouseListener(ecouteurDeSouris);
+        mapPanel.addMouseMotionListener(ecouteurDeSouris);
+
+        //Poptlation de la menubar
         JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
         JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
         chargerPlanXML.addActionListener(ecouteurDeBoutons);
@@ -47,11 +59,14 @@ public class MainVue extends JFrame {
 
         this.setJMenuBar(menuBar);
 
-        BorderLayout mainLayout = new BorderLayout();
 
+        // Layout de la fenetre
+        BorderLayout mainLayout = new BorderLayout();
         this.setLayout(mainLayout);
+
         mapPanel.setBackground(Color.BLUE);
 
+        // Crétion toolPanel
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout(new GridLayout(4,1));
         JPanel nbPersonPanel = new JPanel();
@@ -82,10 +97,20 @@ public class MainVue extends JFrame {
         startStimePanel.add(minuteDebut);
         startStimePanel.add(new JLabel("min"));
 
+        // Création mousePosition Panel
+        JPanel mousePositionPanel = new JPanel(new FlowLayout());
+        mousePositionPanel.add(new JLabel("X:"));
+        XPosition = new JLabel();
+        mousePositionPanel.add(XPosition);
+        mousePositionPanel.add(new JLabel("Y:"));
+        YPosition = new JLabel();
+        mousePositionPanel.add(YPosition);
 
 
+        // Placement des panels sur la fenetre
         toolPanel.add(nbPersonPanel);
         toolPanel.add(startStimePanel);
+        this.add(mousePositionPanel,BorderLayout.SOUTH);
         this.add(mapPanel,BorderLayout.CENTER);
         this.add(toolPanel,BorderLayout.EAST);
 
@@ -96,5 +121,11 @@ public class MainVue extends JFrame {
 
     public MapVue getMapPanel() {
         return mapPanel;
+    }
+
+    public void updateMousePosition(Point point) {
+        XPosition.setText(""+point.x);
+        YPosition.setText(""+point.y);
+        mapPanel.onMouseMove(point);
     }
 }

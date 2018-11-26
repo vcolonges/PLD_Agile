@@ -4,6 +4,8 @@ import modele.Plan;
 import vue.MainVue;
 import xml_manager.XMLParser;
 
+import java.awt.*;
+
 public class Controler {
 
     private Plan plan;
@@ -28,5 +30,9 @@ public class Controler {
             throw new Exception();
         else
             plan = XMLParser.parseTrajets(lienLivraisons, plan);
+    }
+
+    public void mouseMoved(Point point) {
+        mainvue.updateMousePosition(point);
     }
 }
