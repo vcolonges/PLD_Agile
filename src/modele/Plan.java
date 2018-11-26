@@ -1,9 +1,6 @@
 package modele;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Plan {
 
@@ -72,5 +69,22 @@ public class Plan {
                 ", entrepot=" + entrepot +
                 ", heureDepart=" + heureDepart +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plan plan = (Plan) o;
+        return Objects.equals(noeuds, plan.noeuds) &&
+                Objects.equals(troncons, plan.troncons) &&
+                Objects.equals(livraisons, plan.livraisons) &&
+                Objects.equals(entrepot, plan.entrepot) &&
+                Objects.equals(heureDepart, plan.heureDepart);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(noeuds, troncons, livraisons, entrepot, heureDepart);
     }
 }
