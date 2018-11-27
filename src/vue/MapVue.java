@@ -136,7 +136,8 @@ public class MapVue extends JPanel {
             {
                 if(point.y <= n.getLatitude()+WIDTH_DOT/2 && point.y >= n.getLatitude()-WIDTH_DOT/2)
                 {
-                    controler.onPressNode(n,e);
+                    controler.onPressNode(controler.getPlan().getNoeuds().get(n.getId()),e);
+                    return; //on sort apres le 1er noeud trouvé
                 }
             }
         }

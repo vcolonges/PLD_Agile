@@ -5,6 +5,9 @@ import controler.EcouteurDeBoutons;
 import controler.Controler;
 import controler.EcouteurDeComposant;
 import controler.EcouteurDeSouris;
+import controler.etat.Etat;
+import controler.etat.EtatPlanCharge;
+import controler.etat.EtatTournesGeneres;
 import modele.Noeud;
 
 import javax.swing.*;
@@ -21,6 +24,7 @@ public class MainVue extends JFrame {
     public static final String GENERER_TOURNEES = "Générer les Tournées";
     public static final String DEMARRER_TOURNEES = "Démarrer les Tournées";
 
+
     private EcouteurDeBoutons ecouteurDeBoutons;
     private EcouteurDeSouris ecouteurDeSouris;
     private EcouteurDeComposant ecouteurDeComposant;
@@ -29,6 +33,9 @@ public class MainVue extends JFrame {
     private JLabel XPosition;
     private JLabel YPosition;
     private JLabel selectedNode;
+    private final JButton genererTournees;
+    private final JLabel etatLabel;
+    private final JButton demarrerTournees;
 
     private Controler controler;
 
@@ -36,13 +43,37 @@ public class MainVue extends JFrame {
 
         super("Application");
 
-        // Init map et controleur
+        // Init map
         mapPanel = new MapVue();
-        controler = new Controler(this);
-        mapPanel.setControler(controler);
 
         // Création de la menubar
         menuBar = new JMenuBar();
+
+
+        // Layout de la fenetre
+        BorderLayout mainLayout = new BorderLayout();
+        this.setLayout(mainLayout);
+
+        mapPanel.setBackground(Color.BLUE);
+
+        // Création mousePosition Panel
+        JPanel debugPanel = new JPanel(new FlowLayout());
+        debugPanel.add(new JLabel("X:"));
+        XPosition = new JLabel();
+        debugPanel.add(XPosition);
+        debugPanel.add(new JLabel("Y:"));
+        YPosition = new JLabel();
+        debugPanel.add(YPosition);
+        debugPanel.add(new JLabel("Selected node : "));
+        selectedNode = new JLabel();
+        debugPanel.add(selectedNode);
+        debugPanel.add(new JLabel("Etat : "));
+        etatLabel = new JLabel();
+        debugPanel.add(etatLabel);
+
+        //init controleur
+        controler = new Controler(this);
+        mapPanel.setControler(controler);
 
         // Crétion des listener
         ecouteurDeBoutons = new EcouteurDeBoutons(controler);
@@ -51,27 +82,6 @@ public class MainVue extends JFrame {
         mapPanel.addMouseListener(ecouteurDeSouris);
         mapPanel.addMouseMotionListener(ecouteurDeSouris);
         mapPanel.addComponentListener(ecouteurDeComposant);
-
-
-        //Poptlation de la menubar
-        JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
-        JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
-        chargerPlanXML.addActionListener(ecouteurDeBoutons);
-        chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
-
-        JMenu fileMenu = new JMenu("Fichier");
-        fileMenu.add(chargerPlanXML);
-        fileMenu.add(chargerLivraisonXML);
-        menuBar.add(fileMenu);
-
-        this.setJMenuBar(menuBar);
-
-
-        // Layout de la fenetre
-        BorderLayout mainLayout = new BorderLayout();
-        this.setLayout(mainLayout);
-
-        mapPanel.setBackground(Color.BLUE);
 
         // Crétion toolPanel
         JPanel toolPanel = new JPanel();
@@ -104,39 +114,42 @@ public class MainVue extends JFrame {
         startStimePanel.add(minuteDebut);
         startStimePanel.add(new JLabel("min"));
 
-        JButton genererTournees = new JButton(GENERER_TOURNEES);
+        genererTournees = new JButton(GENERER_TOURNEES);
+        genererTournees.disable();
         genererTournees.addActionListener(ecouteurDeBoutons);
         JPanel genererTourneesPanel = new JPanel();
         genererTourneesPanel.setLayout(new FlowLayout());
         genererTourneesPanel.add(genererTournees);
 
-        JButton demarrerTournees = new JButton(DEMARRER_TOURNEES);
+        demarrerTournees = new JButton(DEMARRER_TOURNEES);
+        demarrerTournees.disable();
         demarrerTournees.addActionListener(ecouteurDeBoutons);
         JPanel demarrerTourneesPanel = new JPanel();
         demarrerTourneesPanel.setLayout(new FlowLayout());
         demarrerTourneesPanel.add(demarrerTournees);
-
-        // Création mousePosition Panel
-        JPanel mousePositionPanel = new JPanel(new FlowLayout());
-        mousePositionPanel.add(new JLabel("X:"));
-        XPosition = new JLabel();
-        mousePositionPanel.add(XPosition);
-        mousePositionPanel.add(new JLabel("Y:"));
-        YPosition = new JLabel();
-        mousePositionPanel.add(YPosition);
-        mousePositionPanel.add(new JLabel("Selected node : "));
-        selectedNode = new JLabel();
-        mousePositionPanel.add(selectedNode);
-
 
         // Placement des panels sur la fenetre
         toolPanel.add(nbPersonPanel);
         toolPanel.add(startStimePanel);
         toolPanel.add(genererTourneesPanel);
         toolPanel.add(demarrerTourneesPanel);
-        this.add(mousePositionPanel,BorderLayout.SOUTH);
+        this.add(debugPanel,BorderLayout.SOUTH);
         this.add(mapPanel,BorderLayout.CENTER);
         this.add(toolPanel,BorderLayout.EAST);
+
+
+        //Poptlation de la menubar
+        JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
+        JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
+        chargerPlanXML.addActionListener(ecouteurDeBoutons);
+        chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
+
+        JMenu fileMenu = new JMenu("Fichier");
+        fileMenu.add(chargerPlanXML);
+        fileMenu.add(chargerLivraisonXML);
+        menuBar.add(fileMenu);
+
+        this.setJMenuBar(menuBar);
 
         this.setSize(1200,900);
         this.setVisible(true);
@@ -158,11 +171,11 @@ public class MainVue extends JFrame {
         selectedNode.setText(n.toString());
     }
 
-    public void setPresseddNode(Noeud n,MouseEvent e)
+    public void displayMenuNode(Noeud n, MouseEvent e, PopUpMenu popUpMenu)
     {
-      PopUpMenu menu = new PopUpMenu();
-
-      menu.show(e.getComponent(),e.getX(),e.getY());
+        if(popUpMenu != null) {
+            popUpMenu.show(e.getComponent(), e.getX(), e.getY());
+        }
     }
     public void resizeMap() {
         mapPanel.loadPlan(controler.getPlan());
@@ -175,6 +188,17 @@ public class MainVue extends JFrame {
 
     public void mousePressed(Point point, MouseEvent e) {
         mapPanel.selectNode(point,e);
+    }
+
+    public void setEtat(Etat etat) {
+        etatLabel.setText(etat.getLabel());
+        if(etat.getClass() == EtatPlanCharge.class)
+        {
+            genererTournees.enable();
+        }else if(etat.getClass() == EtatTournesGeneres.class)
+        {
+            demarrerTournees.enable();
+        }
     }
 }
 

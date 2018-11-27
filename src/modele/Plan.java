@@ -101,6 +101,15 @@ public class Plan {
         this.heureDepart = heureDepart;
     }
 
+    public boolean isInLivraisons(Noeud n)
+    {
+        for(Livraison l : livraisons)
+        {
+            if(n == l.getNoeud()) return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "Plan{" +
