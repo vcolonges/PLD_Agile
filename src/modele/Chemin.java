@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 public class Chemin {
 
-    private Noeud origine;
-    private Noeud destination;
+    private Livraison origine;
+    private Livraison destination;
     private double longueur;
     ArrayList<Troncon> troncons;
 
-    public Chemin(Noeud origine, Noeud destination, double longueur){
+    public Chemin(Livraison origine, Livraison destination, double longueur){
         this.origine = origine;
         this.destination = destination;
         this.longueur = longueur;
         this.troncons = new ArrayList<>();
     }
 
-    public Noeud getDestination() {
+    public Livraison getDestination() {
         return destination;
     }
 
