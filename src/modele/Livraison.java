@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Objects;
+
 public class Livraison {
 
     private Noeud noeud;
@@ -32,5 +34,19 @@ public class Livraison {
                 "noeud=" + noeud +
                 ", duree=" + duree +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Livraison livraison = (Livraison) o;
+        return duree == livraison.duree &&
+                Objects.equals(noeud, livraison.noeud);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(noeud, duree);
     }
 }

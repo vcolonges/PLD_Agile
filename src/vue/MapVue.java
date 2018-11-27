@@ -1,6 +1,7 @@
 package vue;
 
 import controler.Controler;
+import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import modele.Troncon;
@@ -36,6 +37,10 @@ public class MapVue extends JPanel {
                 Noeud start = t.getOrigine();
                 Noeud end = t.getDestination();
                 g.drawLine((int) start.getLongitude(), (int) start.getLatitude(), (int) end.getLongitude(), (int) end.getLatitude());
+            }
+            for(Livraison l : resizePlan.getLivraisons()){
+                g.setColor(Color.GREEN);
+                g.fillOval((int)l.getNoeud().getLongitude()-WIDTH_DOT/2,(int)l.getNoeud().getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
             g.setColor(Color.RED);
             while(!hoveredNodes.isEmpty())
@@ -84,7 +89,9 @@ public class MapVue extends JPanel {
             this.resizePlan.addTroncon(new Troncon(newOriginTroncon,newDestinationTroncon,t.getLongueur(),t.getNomRue()));
 
         }
-
+        for(Livraison l : controler.getPlan().getLivraisons()){
+            this.resizePlan.addLivraison(new Livraison(this.resizePlan.getNoeuds().get(l.getNoeud().getId()),l.getDuree()));
+        }
         repaint();
 
     }

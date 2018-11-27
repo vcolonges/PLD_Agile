@@ -69,6 +69,6 @@ public class Noeud {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", tronconsAdjacents=" + tronconsAdjacents +
-                '}';
+                "}\r\n";
     }
 }

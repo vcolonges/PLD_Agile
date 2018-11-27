@@ -168,6 +168,11 @@ public class MainVue extends JFrame {
         mapPanel.loadPlan(controler.getPlan());
     }
 
+    public void errorMessage(String message){
+        JOptionPane.showMessageDialog(this,message);
+    }
+
+
     public void mousePressed(Point point, MouseEvent e) {
         mapPanel.selectNode(point,e);
     }
