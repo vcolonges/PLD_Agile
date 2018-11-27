@@ -23,11 +23,11 @@ public class Controler {
         //System.out.println("Plan : "+lienPlan);
         try {
             plan = XMLParser.parsePlan(lienPlan);
+            mainvue.getMapPanel().loadPlan(plan);
         } catch (XMLException e) {
             e.printStackTrace();
             mainvue.errorMessage(e.getMessage());
         }
-        mainvue.getMapPanel().loadPlan(plan);
     }
 
     public void chargerLivraison(String lienLivraisons){
@@ -37,11 +37,11 @@ public class Controler {
         else{
             try {
                 plan = XMLParser.parseTrajets(lienLivraisons, plan);
+                mainvue.getMapPanel().loadPlan(plan);
             } catch (XMLException e) {
                 e.printStackTrace();
                 mainvue.errorMessage(e.getMessage());
             }
-            mainvue.getMapPanel().loadPlan(plan);
         }
     }
 
