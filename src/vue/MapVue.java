@@ -14,7 +14,6 @@ public class MapVue extends JPanel {
 
 
     private Controler controler;
-    private Plan plan;
     private Plan resizePlan;
     private Queue<Noeud> hoveredNodes;
 
@@ -50,21 +49,21 @@ public class MapVue extends JPanel {
 
     public void loadPlan(Plan p)
     {
-        plan = p;
+        if(p == null) return;
         resizePlan = new Plan();
-        this.plan.getMaxLat();
-        this.plan.getMaxLong();
+        controler.getPlan().getMaxLat();
+        controler.getPlan().getMaxLong();
 
         int heightMap = this.getSize().height;
         int widthMap = this.getSize().width;
 
-        double minLatPlan = plan.getMinLat();
-        double minLongPlan = plan.getMinLong();
-        double maxLatPlan = plan.getMaxLat();
-        double maxLongPlan = plan.getMaxLong();
+        double minLatPlan = controler.getPlan().getMinLat();
+        double minLongPlan = controler.getPlan().getMinLong();
+        double maxLatPlan = controler.getPlan().getMaxLat();
+        double maxLongPlan = controler.getPlan().getMaxLong();
 
 
-        for (Noeud n : this.plan.getNoeuds().values()){
+        for (Noeud n : controler.getPlan().getNoeuds().values()){
             double newlatitude = ((n.getLatitude()-minLatPlan)*(heightMap-2*PADDING)/(maxLatPlan-minLatPlan)) + PADDING;
             double newLongitude = (n.getLongitude()-minLongPlan)*(widthMap-2*PADDING)/(maxLongPlan-minLongPlan) + PADDING;
             this.resizePlan.addNoeud(new Noeud(n.getId(),newlatitude,newLongitude));
@@ -76,7 +75,7 @@ public class MapVue extends JPanel {
         Noeud newOriginTroncon = null;
         Noeud newDestinationTroncon = null;
 
-        for(Troncon t : this.plan.getTroncons()){
+        for(Troncon t : controler.getPlan().getTroncons()){
             originID = t.getOrigine().getId();
             destinationID = t.getDestination().getId();
 
@@ -95,10 +94,6 @@ public class MapVue extends JPanel {
         this.controler = controler;
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
-
     public void onMouseMove(Point point) {
         if(resizePlan == null) return;
 
@@ -109,11 +104,12 @@ public class MapVue extends JPanel {
                 if(point.y <= n.getLatitude()+WIDTH_DOT/2 && point.y >= n.getLatitude()-WIDTH_DOT/2)
                 {
                     hoveredNodes.add(n);
-                    this.repaint();
-                    //this.repaint((int)n.getLongitude()-WIDTH_DOT/2,(int)n.getLatitude()+WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
+                    controler.onHoverNode(n);
                 }
             }
         }
+
+        repaint();
 
     }
 }

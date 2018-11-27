@@ -16,10 +16,12 @@ public class MainVue extends JFrame {
 
     private EcouteurDeBoutons ecouteurDeBoutons;
     private EcouteurDeSouris ecouteurDeSouris;
+    private EcouteurDeComposant ecouteurDeComposant;
     private JMenuBar menuBar;
     private MapVue mapPanel;
     private JLabel XPosition;
     private JLabel YPosition;
+    private JLabel selectedNode;
 
     private Controler controler;
 
@@ -29,7 +31,7 @@ public class MainVue extends JFrame {
 
         // Init map et controleur
         mapPanel = new MapVue();
-        controler = new Controler(mapPanel.getPlan(),this);
+        controler = new Controler(this);
         mapPanel.setControler(controler);
 
         // Création de la menubar
@@ -38,8 +40,11 @@ public class MainVue extends JFrame {
         // Crétion des listener
         ecouteurDeBoutons = new EcouteurDeBoutons(controler);
         ecouteurDeSouris = new EcouteurDeSouris(controler);
+        ecouteurDeComposant = new EcouteurDeComposant(controler);
         mapPanel.addMouseListener(ecouteurDeSouris);
         mapPanel.addMouseMotionListener(ecouteurDeSouris);
+        mapPanel.addComponentListener(ecouteurDeComposant);
+
 
         //Poptlation de la menubar
         JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
@@ -100,6 +105,9 @@ public class MainVue extends JFrame {
         mousePositionPanel.add(new JLabel("Y:"));
         YPosition = new JLabel();
         mousePositionPanel.add(YPosition);
+        mousePositionPanel.add(new JLabel("Selected node : "));
+        selectedNode = new JLabel();
+        mousePositionPanel.add(selectedNode);
 
 
         // Placement des panels sur la fenetre
@@ -122,5 +130,14 @@ public class MainVue extends JFrame {
         XPosition.setText(""+point.x);
         YPosition.setText(""+point.y);
         mapPanel.onMouseMove(point);
+    }
+
+    public void setSelectedNode(Noeud n)
+    {
+        selectedNode.setText(n.toString());
+    }
+
+    public void resizeMap() {
+        mapPanel.loadPlan(controler.getPlan());
     }
 }

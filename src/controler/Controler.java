@@ -1,5 +1,6 @@
 package controler;
 
+import modele.Noeud;
 import modele.Plan;
 import vue.MainVue;
 import xml_manager.XMLParser;
@@ -13,8 +14,7 @@ public class Controler {
     /**
      * Cree le controleur de l'application
      */
-    public Controler(Plan plan,MainVue vue) {
-        this.plan = plan;
+    public Controler(MainVue vue) {
         this.mainvue = vue;
     }
 
@@ -34,5 +34,18 @@ public class Controler {
 
     public void mouseMoved(Point point) {
         mainvue.updateMousePosition(point);
+    }
+
+    public void onHoverNode(Noeud n)
+    {
+        mainvue.setSelectedNode(n);
+    }
+
+    public void resizeMap() {
+        mainvue.resizeMap();
+    }
+
+    public Plan getPlan() {
+        return plan;
     }
 }
