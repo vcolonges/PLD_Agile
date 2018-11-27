@@ -7,6 +7,7 @@ import modele.Troncon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -111,5 +112,22 @@ public class MapVue extends JPanel {
 
         repaint();
 
+    }
+
+    public void selectNode(Point point, MouseEvent e){
+        if(resizePlan == null) return;
+
+        for(Noeud n : resizePlan.getNoeuds().values())
+        {
+            if(point.x <= n.getLongitude()+WIDTH_DOT/2 && point.x >= n.getLongitude()-WIDTH_DOT/2)
+            {
+                if(point.y <= n.getLatitude()+WIDTH_DOT/2 && point.y >= n.getLatitude()-WIDTH_DOT/2)
+                {
+                    controler.onPressNode(n,e);
+                }
+            }
+        }
+
+        repaint();
     }
 }

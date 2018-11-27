@@ -12,6 +12,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
 
 public class MainVue extends JFrame {
 
@@ -142,7 +143,20 @@ public class MainVue extends JFrame {
         selectedNode.setText(n.toString());
     }
 
+    public void setPresseddNode(Noeud n,MouseEvent e)
+    {
+      PopUpMenu menu = new PopUpMenu();
+
+      menu.show(e.getComponent(),e.getX(),e.getY());
+    }
     public void resizeMap() {
         mapPanel.loadPlan(controler.getPlan());
     }
+
+    public void mousePressed(Point point, MouseEvent e) {
+        mapPanel.selectNode(point,e);
+    }
 }
+
+
+
