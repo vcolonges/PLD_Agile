@@ -158,4 +158,9 @@ public class MainVue extends JFrame {
     public void resizeMap() {
         mapPanel.loadPlan(controler.getPlan());
     }
+
+    public void errorMessage(String message){
+        JOptionPane.showMessageDialog(this,message);
+    }
+
 }

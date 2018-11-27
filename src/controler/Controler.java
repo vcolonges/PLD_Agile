@@ -1,5 +1,6 @@
 package controler;
 
+import exceptions.XMLException;
 import modele.Noeud;
 import modele.Plan;
 import vue.MainVue;
@@ -18,18 +19,30 @@ public class Controler {
         this.mainvue = vue;
     }
 
-    public void chargerPlan(String lienPlan) throws Exception {
+    public void chargerPlan(String lienPlan){
         //System.out.println("Plan : "+lienPlan);
-        plan = XMLParser.parsePlan(lienPlan);
+        try {
+            plan = XMLParser.parsePlan(lienPlan);
+        } catch (XMLException e) {
+            e.printStackTrace();
+            mainvue.errorMessage(e.getMessage());
+        }
         mainvue.getMapPanel().loadPlan(plan);
     }
 
-    public void chargerLivraison(String lienLivraisons) throws Exception {
+    public void chargerLivraison(String lienLivraisons){
         //System.out.println("Livraison : " + lienLivraisons);
         if(plan == null)
-            throw new Exception();
-        else
-            plan = XMLParser.parseTrajets(lienLivraisons, plan);
+            mainvue.errorMessage("Veuillez charger un plan avant de charger des livraisons.");
+        else{
+            try {
+                plan = XMLParser.parseTrajets(lienLivraisons, plan);
+            } catch (XMLException e) {
+                e.printStackTrace();
+                mainvue.errorMessage(e.getMessage());
+            }
+            mainvue.getMapPanel().loadPlan(plan);
+        }
     }
 
     public void mouseMoved(Point point) {
