@@ -3,7 +3,9 @@ package vue;
 import controler.EcouteurDeBoutons;
 
 import controler.Controler;
+import controler.EcouteurDeComposant;
 import controler.EcouteurDeSouris;
+import modele.Noeud;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +13,8 @@ import java.awt.*;
 public class MainVue extends JFrame {
 
     // Intitules des boutons de la fenetre
-    protected final static String CHARGER_PLAN = "Charger un plan";
-    protected static final String CHARGER_LIVRAISON = "Charger les livraisons";
+    public final static String CHARGER_PLAN = "Charger un plan";
+    public static final String CHARGER_LIVRAISON = "Charger les livraisons";
 
     private EcouteurDeBoutons ecouteurDeBoutons;
     private EcouteurDeSouris ecouteurDeSouris;
