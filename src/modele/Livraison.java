@@ -1,9 +1,12 @@
 package modele;
 
+import java.util.HashSet;
+
 public class Livraison {
 
     private Noeud noeud;
     private int duree;
+    private HashSet<Chemin> chemins;
 
     private Livraison(Noeud noeud, int duree){
         this.noeud = noeud;
@@ -24,5 +27,9 @@ public class Livraison {
 
     public void setDuree(int duree) {
         this.duree = duree;
+    }
+
+    public HashSet<Chemin> getChemins() {
+        return chemins;
     }
 }

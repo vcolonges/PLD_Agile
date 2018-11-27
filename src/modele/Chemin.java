@@ -16,4 +16,11 @@ public class Chemin {
         this.troncons = new ArrayList<>();
     }
 
+    public Noeud getDestination() {
+        return destination;
+    }
+
+    public double getLongueur() {
+        return longueur;
+    }
 }
