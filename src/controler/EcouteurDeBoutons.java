@@ -1,6 +1,7 @@
-package vue;
+package controler;
 
 import controler.Controler;
+import vue.MainVue;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,17 +1,12 @@
 package vue;
 
-import modele.Noeud;
-import modele.Plan;
-import modele.Troncon;
+import controler.EcouteurDeBoutons;
 
 import controler.Controler;
-import modele.Plan;
+import controler.EcouteurDeSouris;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 public class MainVue extends JFrame {
 
