@@ -41,6 +41,11 @@ public class MapVue extends JPanel {
                 g.setColor(Color.GREEN);
                 g.fillOval((int)l.getNoeud().getLongitude()-WIDTH_DOT/2,(int)l.getNoeud().getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
+            if(resizePlan.getEntrepot()!=null){
+                g.setColor(Color.YELLOW);
+                g.fillOval((int)resizePlan.getEntrepot().getNoeud().getLongitude()-WIDTH_DOT/2,(int)resizePlan.getEntrepot().getNoeud().getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
+            }
+
             g.setColor(Color.RED);
             while(!hoveredNodes.isEmpty())
             {
@@ -91,6 +96,8 @@ public class MapVue extends JPanel {
         for(Livraison l : controler.getPlan().getLivraisons()){
             this.resizePlan.addLivraison(new Livraison(this.resizePlan.getNoeuds().get(l.getNoeud().getId()),l.getDuree()));
         }
+        if(controler.getPlan().getEntrepot()!=null)
+            this.resizePlan.setEntrepot(new Livraison(this.resizePlan.getNoeuds().get(controler.getPlan().getEntrepot().getNoeud().getId()),0));
         repaint();
 
     }
