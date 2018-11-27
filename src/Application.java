@@ -6,6 +6,7 @@ import modele.Plan;
 import xml_manager.XMLParser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 public class Application {
@@ -14,9 +15,9 @@ public class Application {
         try {
             Plan plan;
             XMLParser xmlParser = new XMLParser();
-            plan = xmlParser.parsePlan("src/petitPlanX.xml");
+            plan = xmlParser.parsePlan("src/grandPlan.xml");
 
-            plan = xmlParser.parseTrajets("src/dl-petitX-6.xml", plan);
+            plan = xmlParser.parseTrajets("src/dl-grand-20.xml", plan);
 
             AlgoParcour test = new AlgoParcour();
             ArrayList<ArrayList<Livraison>> testCluster = test.getLivraisons(plan.getLivraisons(), 3);

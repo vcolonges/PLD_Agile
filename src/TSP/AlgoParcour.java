@@ -161,13 +161,13 @@ public class AlgoParcour {
                         lastCircleIndex = indexCircle;
                         double tmpDistance = 0;
                         for (int tmpIndexCircle = 0; tmpIndexCircle < nbrLivreur; tmpIndexCircle++) {
-                            //if (result.get(tmpIndexCircle).size() != 0) {
+                            //if (result.get(tmpIndexCircle).size() != 0) {//********************************trouver meilleur condition d'arrêt
                                 tmpDistance = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circlesData.get(tmpIndexCircle).get(4), circlesData.get(tmpIndexCircle).get(5));
                                 if (tmpDistance < distanceToCenter) {
                                     distanceToCenter = tmpDistance;
                                     lastCircleIndex = tmpIndexCircle;
                                 }
-                           // }
+                            //}
                         }
                         //si le noeud est plus pres du centre d'un autre cercle que du sien, on le transmet à resultat final du cercle ciblé et on redemarre l'algorithme
                         //pour le cercle cible
@@ -210,7 +210,7 @@ public class AlgoParcour {
                                 }
                             }
                         }
-                        if(result.get(indexToMove).size()==0)
+                        if(result.get(indexToMove).size()==0 || indexToRemove== tmpResult.get(lastCircleIndex).size()-1)
                         {
                             int circleSize = 1000000;
                             ArrayList<Livraison> tmpListLiv = null;
@@ -241,6 +241,7 @@ public class AlgoParcour {
         }
 
         return result;
+
     }
 
 
