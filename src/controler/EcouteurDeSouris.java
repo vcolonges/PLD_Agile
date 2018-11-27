@@ -25,4 +25,11 @@ public class EcouteurDeSouris extends MouseAdapter {
         super.mouseMoved(e);
         controler.mouseMoved(e.getPoint());
     }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        super.mousePressed(e);
+        controler.mousePressed(e.getPoint(),e);
+
+    }
 }

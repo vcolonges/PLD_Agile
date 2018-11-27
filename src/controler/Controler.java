@@ -7,6 +7,7 @@ import vue.MainVue;
 import xml_manager.XMLParser;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class Controler {
 
@@ -54,11 +55,17 @@ public class Controler {
         mainvue.setSelectedNode(n);
     }
 
+    public void onPressNode(Noeud n,MouseEvent e) { mainvue.setPresseddNode(n,e); }
+
     public void resizeMap() {
         mainvue.resizeMap();
     }
 
     public Plan getPlan() {
         return plan;
+    }
+
+    public void mousePressed(Point point, MouseEvent e) {
+        mainvue.mousePressed(point,e);
     }
 }
