@@ -1,6 +1,7 @@
-package vue;
+package controler;
 
 import controler.Controler;
+import vue.MainVue;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,12 @@ public class EcouteurDeBoutons implements ActionListener{
                         e1.printStackTrace();
                     }
                 }
+                break;
+
+            case MainVue.DEMARRER_TOURNEES:
+                break;
+
+            case MainVue.GENERER_TOURNEES:
                 break;
         }
     }

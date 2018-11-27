@@ -1,4 +1,4 @@
-package vue;
+package controler;
 
 import controler.Controler;
 
