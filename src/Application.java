@@ -1,8 +1,11 @@
 
+import TSP.AlgoParcour;
+import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import xml_manager.XMLParser;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Application {
@@ -15,8 +18,15 @@ public class Application {
 
             plan = xmlParser.parseTrajets("src/dl-petit-6.xml", plan);
 
-            for(Map.Entry<Long, Noeud> entry : plan.getNoeuds().entrySet()) {
-                System.out.println(entry.getValue());
+            AlgoParcour test = new AlgoParcour();
+            ArrayList<ArrayList<Livraison>> testCluster = test.getLivraisons(plan.getLivraisons(), 3);
+            for(int i=0; i<testCluster.size(); i++)
+            {
+                for(Livraison l : testCluster.get(i))
+                {
+                    System.out.println(l.toString());
+                }
+                System.out.println(testCluster.get(i).size());
             }
         }catch (Exception e) {
             e.printStackTrace();
