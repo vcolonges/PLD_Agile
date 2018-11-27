@@ -15,6 +15,8 @@ public class MainVue extends JFrame {
     // Intitules des boutons de la fenetre
     public final static String CHARGER_PLAN = "Charger un plan";
     public static final String CHARGER_LIVRAISON = "Charger les livraisons";
+    public static final String GENERER_TOURNEES = "Générer les Tournées";
+    public static final String DEMARRER_TOURNEES = "Démarrer les Tournées";
 
     private EcouteurDeBoutons ecouteurDeBoutons;
     private EcouteurDeSouris ecouteurDeSouris;
@@ -99,6 +101,18 @@ public class MainVue extends JFrame {
         startStimePanel.add(minuteDebut);
         startStimePanel.add(new JLabel("min"));
 
+        JButton genererTournees = new JButton(GENERER_TOURNEES);
+        genererTournees.addActionListener(ecouteurDeBoutons);
+        JPanel genererTourneesPanel = new JPanel();
+        genererTourneesPanel.setLayout(new FlowLayout());
+        genererTourneesPanel.add(genererTournees);
+
+        JButton demarrerTournees = new JButton(DEMARRER_TOURNEES);
+        demarrerTournees.addActionListener(ecouteurDeBoutons);
+        JPanel demarrerTourneesPanel = new JPanel();
+        demarrerTourneesPanel.setLayout(new FlowLayout());
+        demarrerTourneesPanel.add(demarrerTournees);
+
         // Création mousePosition Panel
         JPanel mousePositionPanel = new JPanel(new FlowLayout());
         mousePositionPanel.add(new JLabel("X:"));
@@ -115,6 +129,8 @@ public class MainVue extends JFrame {
         // Placement des panels sur la fenetre
         toolPanel.add(nbPersonPanel);
         toolPanel.add(startStimePanel);
+        toolPanel.add(genererTourneesPanel);
+        toolPanel.add(demarrerTourneesPanel);
         this.add(mousePositionPanel,BorderLayout.SOUTH);
         this.add(mapPanel,BorderLayout.CENTER);
         this.add(toolPanel,BorderLayout.EAST);

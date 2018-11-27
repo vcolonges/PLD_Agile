@@ -42,6 +42,12 @@ public class EcouteurDeBoutons implements ActionListener{
                     }
                 }
                 break;
+
+            case MainVue.DEMARRER_TOURNEES:
+                break;
+
+            case MainVue.GENERER_TOURNEES:
+                break;
         }
     }
 }

@@ -43,8 +43,6 @@ public class MapVue extends JPanel {
                 g.fillOval((int)hoveredNode.getLongitude() - WIDTH_DOT/2,(int)hoveredNode.getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
         }
-
-
     }
 
     public void loadPlan(Plan p)
@@ -96,6 +94,7 @@ public class MapVue extends JPanel {
 
     public void onMouseMove(Point point) {
         if(resizePlan == null) return;
+
 
         for(Noeud n : resizePlan.getNoeuds().values())
         {
