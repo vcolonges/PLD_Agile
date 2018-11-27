@@ -14,9 +14,9 @@ public class Application {
         try {
             Plan plan;
             XMLParser xmlParser = new XMLParser();
-            plan = xmlParser.parsePlan("src/petitPlan.xml");
+            plan = xmlParser.parsePlan("src/petitPlanX.xml");
 
-            plan = xmlParser.parseTrajets("src/dl-petit-6.xml", plan);
+            plan = xmlParser.parseTrajets("src/dl-petitX-6.xml", plan);
 
             AlgoParcour test = new AlgoParcour();
             ArrayList<ArrayList<Livraison>> testCluster = test.getLivraisons(plan.getLivraisons(), 3);

@@ -1,5 +1,6 @@
 package TSP;
 
+import javafx.scene.shape.Circle;
 import modele.Livraison;
 import modele.Noeud;
 import modele.Troncon;
@@ -60,7 +61,7 @@ public class AlgoParcour {
 
     //Calculer la distance entre 2 points.
     private Double PointsDistance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(Math.pow(2.0, (x2 - x1)) + Math.pow(2.0, (y2 - y1)));
+        return Math.sqrt(Math.pow((x2 - x1), 2.0) + Math.pow((y2 - y1),2.0 ));
     }
 
     //calculer les données d'un cercle
@@ -141,74 +142,105 @@ public class AlgoParcour {
         }
 
         //optimiser le contenu d'un cercle
-        for (int indexCircle = 0; indexCircle < nbrLivreur; indexCircle++) {
+        for(int j=0; j<nbrLivreur; j++) {
+            for (int indexCircle = 0; indexCircle < nbrLivreur; indexCircle++) {
        /* if(result.get(indexCircle).size()==0)
         {
             result.remove(indexCircle);
             indexCircle--;
             break;
         }*/
-            int lastCircleIndex = 0;
-            if (result.get(indexCircle).size() != 0) {
-                //pour chaque cercle on prend chaque noeud
-                for (int indexNoeud = 0; indexNoeud < result.get(indexCircle).size(); indexNoeud++) {
-                    //pour chaque noeud on récupère sa distance au centre de son cercle
-                    Noeud curNoeud = result.get(indexCircle).get(indexNoeud).getNoeud();
-                    double distanceToCenter = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circlesData.get(indexCircle).get(4), circlesData.get(indexCircle).get(5));
-                    //on compare la distance entre noeud et son cercle à la distance du noeud et autres cercles
-                    lastCircleIndex = indexCircle;
-                    double tmpDistance = 0;
-                    for (int tmpIndexCircle = 0; tmpIndexCircle < nbrLivreur; tmpIndexCircle++) {
-                        if (result.get(tmpIndexCircle).size() != 0) {
-                            tmpDistance = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circlesData.get(tmpIndexCircle).get(4), circlesData.get(indexCircle).get(5));
-                            if (tmpDistance < distanceToCenter) {
-                                distanceToCenter = tmpDistance;
-                                lastCircleIndex = tmpIndexCircle;
+                int lastCircleIndex = 0;
+                if (result.get(indexCircle).size() != 0) {
+                    //pour chaque cercle on prend chaque noeud
+                    for (int indexNoeud = 0; indexNoeud < result.get(indexCircle).size(); indexNoeud++) {
+                        //pour chaque noeud on récupère sa distance au centre de son cercle
+                        Noeud curNoeud = result.get(indexCircle).get(indexNoeud).getNoeud();
+                        double distanceToCenter = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circlesData.get(indexCircle).get(4), circlesData.get(indexCircle).get(5));
+                        //on compare la distance entre noeud et son cercle à la distance du noeud et autres cercles
+                        lastCircleIndex = indexCircle;
+                        double tmpDistance = 0;
+                        for (int tmpIndexCircle = 0; tmpIndexCircle < nbrLivreur; tmpIndexCircle++) {
+                            //if (result.get(tmpIndexCircle).size() != 0) {
+                                tmpDistance = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circlesData.get(tmpIndexCircle).get(4), circlesData.get(tmpIndexCircle).get(5));
+                                if (tmpDistance < distanceToCenter) {
+                                    distanceToCenter = tmpDistance;
+                                    lastCircleIndex = tmpIndexCircle;
+                                }
+                           // }
+                        }
+                        //si le noeud est plus pres du centre d'un autre cercle que du sien, on le transmet à resultat final du cercle ciblé et on redemarre l'algorithme
+                        //pour le cercle cible
+                        //possible d'optimiser
+                        if (lastCircleIndex != indexCircle) {
+                            result.get(lastCircleIndex).add(result.get(indexCircle).remove(indexNoeud));
+                            if (distanceToCenter > PointsDistance(circlesData.get(lastCircleIndex).get(0), circlesData.get(lastCircleIndex).get(1), circlesData.get(lastCircleIndex).get(4), circlesData.get(lastCircleIndex).get(5))) {
+                                circlesData.set(lastCircleIndex, MAJCircleData(curNoeud, circlesData.get(lastCircleIndex)));
                             }
-                        }
-                    }
-                    //si le noeud est plus pres du centre d'un autre cercle que du sien, on le transmet à resultat final du cercle ciblé et on redemarre l'algorithme
-                    //pour le cercle cible
-                    //possible d'optimiser
-                    if (lastCircleIndex != indexCircle) {
-                        result.get(lastCircleIndex).add(result.get(indexCircle).remove(indexNoeud));
-                        if (distanceToCenter > PointsDistance(circlesData.get(lastCircleIndex).get(0), circlesData.get(lastCircleIndex).get(1), circlesData.get(lastCircleIndex).get(4), circlesData.get(lastCircleIndex).get(5))) {
-                            circlesData.set(lastCircleIndex, MAJCircleData(curNoeud, circlesData.get(lastCircleIndex)));
-                        }
-                        if (((curNoeud.getLatitude() == circlesData.get(indexCircle).get(0) && curNoeud.getLongitude() == circlesData.get(indexCircle).get(1)) || (curNoeud.getLatitude() == circlesData.get(indexCircle).get(2) && curNoeud.getLongitude() == circlesData.get(indexCircle).get(3))) && result.get(indexCircle).size() > 1) {
-                            circlesData.set(indexCircle, initCircleData(result.get(indexCircle)));
-                        }
-                        indexCircle = lastCircleIndex - 1;
+                            if (((curNoeud.getLatitude() == circlesData.get(indexCircle).get(0) && curNoeud.getLongitude() == circlesData.get(indexCircle).get(1)) || (curNoeud.getLatitude() == circlesData.get(indexCircle).get(2) && curNoeud.getLongitude() == circlesData.get(indexCircle).get(3))) && result.get(indexCircle).size() > 1) {
+                                circlesData.set(indexCircle, initCircleData(result.get(indexCircle)));
+                            }
+                            indexCircle = lastCircleIndex - 1;
 
-                        break;
-                    }
-                    //sinon on transmet le noeud au resultat du cercle courant
-                    else {
-                        tmpResult.get(indexCircle).add(result.get(indexCircle).remove(indexNoeud));
-                        indexNoeud--;
-
-                    }
-
-                }
-                //si on a transmit l'ensemble de noeuds d'un cercle à resultat du cercle et que le cardinal du resultat
-                //est superieur au nombre de livraions / nombre de livreur +1
-                // on redistribue le dernier noeud  du resultat potentiellement erroné entre les cercles restant
-                if (tmpResult.get(lastCircleIndex).size() > nLim) {
-
-                    int indexReplace = 0;
-                    for (int i = 0; i < nbrLivreur; i++) {
-                        if (result.get(i).size() != 0) {
-                            indexReplace = i;
                             break;
                         }
+                        //sinon on transmet le noeud au resultat du cercle courant
+                        else {
+                            tmpResult.get(indexCircle).add(result.get(indexCircle).remove(indexNoeud));
+                            indexNoeud--;
+                        }
                     }
-                    result.get(indexReplace).add( tmpResult.get(lastCircleIndex).remove(tmpResult.get(lastCircleIndex).size()-1));
-                }
-            }
+                    //si on a transmit l'ensemble de noeuds d'un cercle à resultat du cercle et que le cardinal du resultat
+                    //est superieur au nombre de livraions / nombre de livreur +1
+                    // on redistribue le dernier noeud  du resultat potentiellement erroné entre les cercles restant
+                    if (tmpResult.get(lastCircleIndex).size() > nLim) {
+                        int indexToRemove = 0;
+                        int indexToMove = indexCircle;
+                        for (int indexNoeud = 0; indexNoeud < tmpResult.get(lastCircleIndex).size(); indexNoeud++) {
+                            double distanceToCenter = 100000000.0;
+                            Noeud curNoeud = tmpResult.get(lastCircleIndex).get(indexNoeud).getNoeud();
+                            for (int indexCircleTarget = 0; indexCircleTarget < nbrLivreur; indexCircleTarget++) {
+                                if (indexCircleTarget != lastCircleIndex && result.get(indexCircleTarget).size() != 0) {
+                                    double tmpDistance = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circlesData.get(indexCircleTarget).get(4), circlesData.get(indexCircleTarget).get(5));
+                                    if (tmpDistance < distanceToCenter) {
+                                        indexToRemove = indexNoeud;
+                                        indexToMove = indexCircleTarget;
+                                    }
 
+                                }
+                            }
+                        }
+                        if(result.get(indexToMove).size()==0)
+                        {
+                            int circleSize = 1000000;
+                            ArrayList<Livraison> tmpListLiv = null;
+                            for(ArrayList<Livraison> listLiv : tmpResult)
+                            {
+                                if(circleSize>listLiv.size())
+                                {
+                                    circleSize=listLiv.size();
+                                    tmpListLiv=listLiv;
+                                }
+                            }
+                            tmpListLiv.add(tmpResult.get(lastCircleIndex).remove(indexToRemove));
+                        }
+                        else
+                        {
+                            result.get(indexToMove).add(tmpResult.get(lastCircleIndex).remove(indexToRemove));
+                        }
+                        indexCircle = --indexToMove;
+                    }
+                }
+
+            }
+            for(int i=0; i<nbrLivreur; i++)
+            {
+                result.get(i).addAll(tmpResult.get(i));
+                tmpResult.get(i).clear();
+            }
         }
 
-        return tmpResult;
+        return result;
     }
 
 
