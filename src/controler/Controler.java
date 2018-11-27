@@ -21,8 +21,8 @@ public class Controler {
     }
 
     public void chargerPlan(String lienPlan){
-        //System.out.println("Plan : "+lienPlan);
         try {
+            plan.getNoeuds().clear();
             plan = XMLParser.parsePlan(lienPlan);
             mainvue.getMapPanel().loadPlan(plan);
         } catch (XMLException e) {
@@ -32,11 +32,11 @@ public class Controler {
     }
 
     public void chargerLivraison(String lienLivraisons){
-        //System.out.println("Livraison : " + lienLivraisons);
         if(plan == null)
             mainvue.errorMessage("Veuillez charger un plan avant de charger des livraisons.");
         else{
             try {
+                plan.getLivraisons().clear();
                 plan = XMLParser.parseTrajets(lienLivraisons, plan);
                 mainvue.getMapPanel().loadPlan(plan);
             } catch (XMLException e) {
