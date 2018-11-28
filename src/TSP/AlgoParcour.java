@@ -1,6 +1,7 @@
 package TSP;
 
 import javafx.scene.shape.Circle;
+import javafx.util.Pair;
 import modele.Livraison;
 import modele.Noeud;
 import modele.Troncon;
@@ -13,8 +14,12 @@ class Chemin
    Noeud destination;
    int longueur;
    ArrayList<Troncon> troncons;
-
+    public Chemin ()
+    {
+        troncons = new ArrayList<>();
+    }
    void setTroncon(Troncon troncon){this.troncons.add(troncon);}
+   void setTroncon(int index, Troncon troncon){this.troncons.add(index, troncon);}
    void setOrigin(Noeud noeud){this.origin = noeud;}
    void setDestination(Noeud noeud){this.destination=noeud;}
    void setLongueur(int pLong){this.longueur=pLong;}
@@ -23,47 +28,82 @@ class Chemin
 public class AlgoParcour {
     //calculer 1e plus court chemin entre 2 livraisons
     // à recoder avec une somme pour eviter des boucles
-    Chemin calculchemin(Noeud depart, Noeud fin) {
+    public Chemin calculChemin(Noeud depart, Noeud fin) {
         //initialisation
-        Chemin result = null;
-        Noeud tmpNoeud = depart;
-        Troncon tmpTroncon = null;
-        int longueurTot = 0;
-        double tmpLongueur = 10000000000.0;
-        HashSet<Troncon> tmpHashSet = null;
-        HashSet<Troncon> tmpHashSetLevel2 = null;
-
-        HashSet<Noeud> sommetNoirs = null;
-        //itération sur les noeuds
-        while (tmpNoeud != fin) {
-            tmpHashSet = tmpNoeud.getTronconsAdjacents();
-            sommetNoirs.add(tmpNoeud);
-            //iteration sur les trancons adjacents (patcour en largeur)
-            for (Troncon troncon : tmpHashSet) {
-                if (!sommetNoirs.contains(troncon.getDestination())) {
-
-                    if (tmpLongueur > troncon.getLongueur()) {
-                        tmpTroncon = troncon;
-                        tmpLongueur = troncon.getLongueur();
-                        longueurTot += tmpLongueur;
+        Chemin result = new Chemin();
+        // ensemble des troncons adjacents à un noeud
+        HashSet<Troncon> curNoeudTroncons = null;
+        // Noeud dont tous les succeeceurs sont grisés
+        ArrayList<Noeud> blackNoeud = new ArrayList<>();
+        //Ensemble de noeuds decouverts
+        ArrayList<Noeud> greyNoeuds = new ArrayList<>();
+        greyNoeuds.add(depart);
+        // Collection des noeuds, leur prédécesseur et la distance jusqu'à ce noeud depuis le noeud départ
+        HashMap<Long, Pair<Troncon, Double>> successorDistance = new HashMap<Long, Pair<Troncon, Double>>();
+        //initialisation de collection avec le noeud départ
+        successorDistance.put(depart.getId(), new Pair(null,0.0));
+        //on parcourt tous les noeuds gris
+       for(int curNoeudIndex=0; curNoeudIndex<greyNoeuds.size(); curNoeudIndex++)
+        {   //si le noeud gris est celui de la fin, on ne calcule pas ses successeurs car c'est la fin de chemin
+            Noeud curNoeud = greyNoeuds.get(curNoeudIndex);
+            if(curNoeud==fin)
+            {
+                continue;
+            }
+            Noeud tmpGreyNoeud = null;
+            curNoeudTroncons=curNoeud.getTronconsAdjacents();
+            //On récupère la distance du depart jusquà noeud prédécesseur forcement définie dans la collection
+            double curTravelDistance = successorDistance.get(curNoeud.getId()).getValue();
+            //on parcourt les Noeud adjacents via les troncons
+            for(Troncon tmpTroncon : curNoeudTroncons)
+            {
+                //on calcule la distance au noeud seulement s'il n'est pas dans blackNoeud
+                if(!blackNoeud.contains(tmpTroncon.getDestination())) //****Complexité O(n), peut être amélioré
+                {
+                    tmpGreyNoeud=tmpTroncon.getDestination();
+                    //On ajoute les noeuds découverts dans greyNoeud seulement si on a pas déjà decouvert le noeud fin (omplexité O(1))
+                    if(!successorDistance.containsKey(fin.getId())) {
+                        greyNoeuds.add(tmpGreyNoeud);
+                    }
+                    curTravelDistance+=tmpTroncon.getLongueur();
+                    //Si le noeud gris courant (tmpGreyNoeud) possède une distance plus courte à atteindre dépuis son nouveau predecesseur, on met à jour
+                    // la collection
+                    if(successorDistance.get(tmpGreyNoeud.getId())==null || successorDistance.get(tmpGreyNoeud.getId()).getValue()>curTravelDistance)
+                    {
+                        successorDistance.put(tmpGreyNoeud.getId(), new Pair(tmpTroncon,curTravelDistance));
                     }
                 }
             }
-            result.setOrigin(tmpNoeud);
-            tmpNoeud = tmpTroncon.getDestination();
-            result.setDestination(tmpNoeud);
-            result.setLongueur(longueurTot);
-            tmpLongueur = 10000000000.0;
-            result.setTroncon(tmpTroncon);
+            //une fois tous les noeud adjacents du curNoeud parcouru, on l'ajoute dans blackNoeud
+            blackNoeud.add(curNoeud);
+            //greyNoeuds.remove(curNoeud); //probablément juste une perte de temps
         }
+
+        Troncon sortTroncon = successorDistance.get(fin.getId()).getKey();
+        result.setTroncon(sortTroncon);
+        while(sortTroncon.getOrigine()!=depart)
+        {
+            sortTroncon= successorDistance.get(sortTroncon.getOrigine().getId()).getKey();
+            result.setTroncon(0,sortTroncon);
+        }
+
+        for(int i=0; i<result.troncons.size(); i++)
+        {
+            System.out.println(result.troncons.get(i));
+        }
+        System.out.println(result.troncons.size());
         return result;
     }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Calculer la distance entre 2 points.
     private Double PointsDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2.0) + Math.pow((y2 - y1),2.0 ));
     }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //calculer les données d'un cercle
     private ArrayList<Double> initCircleData(ArrayList<Livraison> circle) {
         ArrayList<Double> circleData = new ArrayList<>();
@@ -86,6 +126,8 @@ public class AlgoParcour {
         return circleData;
     }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Mettre à jour les données d'un cercle
     private ArrayList<Double> MAJCircleData(Noeud curNoeud, ArrayList<Double> circleData) {
         double distanceToPoint1 = PointsDistance(curNoeud.getLatitude(), curNoeud.getLongitude(), circleData.get(0), circleData.get(1));
@@ -106,6 +148,8 @@ public class AlgoParcour {
         return circleData;
     }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //separer l'ensemble de livraisons en n listes de taille k correspondant au nombre de livraisons
     //chaque liste represente un cercle avec la plus grande densité des k livraison adjacent
     private ArrayList<ArrayList<Livraison>> toCircle(ArrayList<Livraison> livraisons, int nbrLivreur, int nLim) {
@@ -245,6 +289,8 @@ public class AlgoParcour {
     }
 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ArrayList<Livraison>> getLivraisons( ArrayList<Livraison> livraisons, int nbrLivreur) {
         int nLim = livraisons.size()/nbrLivreur;
         if(livraisons.size()%nbrLivreur!=0)
