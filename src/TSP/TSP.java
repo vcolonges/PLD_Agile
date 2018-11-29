@@ -125,14 +125,14 @@ public class TSP {
         return tournee;
     }
 
-    public static ArrayList<Tournee> calculerLesTournee(ArrayList<Livraison> livraisons, int nbrLivreur, Livraison entrepot){
+    public static ArrayList<Tournee> calculerLesTournees(ArrayList<Livraison> livraisons, int nbrLivreur, Livraison entrepot){
         AlgoParcour algoParcour = new AlgoParcour();
 
         for (Livraison depart: livraisons) {
             for (Livraison arrive: livraisons) {
                 if(depart != arrive) {
                     Chemin chemin = algoParcour.calculChemin(depart.getNoeud(), arrive.getNoeud());
-                    depart.getChemins().add(chemin);
+                    depart.addChemin(chemin);
                 }
             }
         }

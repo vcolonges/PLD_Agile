@@ -1,6 +1,7 @@
 package controler;
 
 import TSP.AlgoParcour;
+import TSP.TSP;
 import controler.etat.*;
 import exceptions.XMLException;
 import modele.*;
@@ -9,6 +10,7 @@ import xml_manager.XMLParser;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Controler {
@@ -87,16 +89,15 @@ public class Controler {
     public void genererTournees() {
         etat = new EtatTournesGeneres();
         mainvue.setEtat(etat);
-        ArrayList<Chemin> ensembleDeTSP = null;
+        ArrayList<Livraison> livraisons = new ArrayList<>();
+        livraisons.addAll(plan.getLivraisons().values());
+        ArrayList<Tournee> tournee = TSP.calculerLesTournees(livraisons,2,plan.getEntrepot());
+        for(Tournee t : tournee){
+            for(Chemin c : t.getChemins()){
+                System.out.println(c);
+            }
 
-        // Besoin du nombre de livreur puis partager les TSP entre les livreurs
-
-        for(int i=0;i<plan.getLivraisons().size();i++){
-            Chemin result = algo.calculChemin(plan.getLivraisons().get(i).getNoeud(), plan.getLivraisons().get((i+1)).getNoeud());
-            ensembleDeTSP.add(result);
         }
-        
-        //
     }
 
     public void demarrerTournees() {

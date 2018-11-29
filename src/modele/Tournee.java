@@ -13,4 +13,14 @@ public class Tournee {
         this.chemins = chemins;
     }
 
+    public ArrayList<Chemin> getChemins(){
+        return this.chemins;
+    }
+
+    @Override
+    public String toString() {
+        return "Tournee{" +
+                "chemins=" + chemins +
+                '}';
+    }
 }
