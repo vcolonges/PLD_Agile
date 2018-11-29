@@ -31,9 +31,11 @@ class Chemin
 public class AlgoParcour {
     //calculer 1e plus court chemin entre 2 livraisons
     // à recoder avec une somme pour eviter des boucles
-    public Chemin calculChemin(Noeud depart, Noeud fin) {
+    public Chemin calculChemin(Livraison departLiv, Livraison finLiv) {
         //initialisation
-        Chemin result = new Chemin();
+        Noeud depart = departLiv.getNoeud();
+        Noeud fin = finLiv.getNoeud();
+
         // ensemble des troncons adjacents à un noeud
         HashSet<Troncon> curNoeudTroncons = null;
         // Noeud dont tous les succeeceurs sont grisés
@@ -83,11 +85,12 @@ public class AlgoParcour {
         }
 
         Troncon sortTroncon = successorDistance.get(fin.getId()).getPremier();
+        Chemin result = new Chemin(departLiv, finLiv, successorDistance.get(fin.getId()).getSecond());
         result.getTroncons().add(sortTroncon);
         while(sortTroncon.getOrigine()!=depart)
         {
             sortTroncon= successorDistance.get(sortTroncon.getOrigine().getId()).getPremier();
-            result.getTroncons().add(sortTroncon);
+            result.getTroncons().add(0,sortTroncon);
         }
 
         for(int i=0; i<result.getTroncons().size(); i++)
