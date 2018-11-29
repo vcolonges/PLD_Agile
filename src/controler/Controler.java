@@ -89,10 +89,14 @@ public class Controler {
         mainvue.setEtat(etat);
         ArrayList<Chemin> ensembleDeTSP = null;
 
+        // Besoin du nombre de livreur puis partager les TSP entre les livreurs
+
         for(int i=0;i<plan.getLivraisons().size();i++){
             Chemin result = algo.calculChemin(plan.getLivraisons().get(i).getNoeud(), plan.getLivraisons().get((i+1)).getNoeud());
             ensembleDeTSP.add(result);
         }
+        
+        //
     }
 
     public void demarrerTournees() {
