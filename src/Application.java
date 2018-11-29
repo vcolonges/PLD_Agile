@@ -1,14 +1,17 @@
 
 import TSP.AlgoParcour;
+import modele.Livraison;
 import modele.Plan;
 import vue.MainVue;
 import xml_manager.XMLParser;
+
+import java.util.ArrayList;
 
 public class Application {
 
     public static void main(String[] args) {
         try {
-            /*
+
             Plan plan;
             XMLParser xmlParser = new XMLParser();
             plan = xmlParser.parsePlan("src/grandPlan.xml");
@@ -16,8 +19,10 @@ public class Application {
             plan = xmlParser.parseTrajets("src/dl-grand-20.xml", plan);
 
             AlgoParcour test = new AlgoParcour();
-            test.calculChemin(plan.getLivraisons().get(0).getNoeud(), plan.getLivraisons().get(1).getNoeud());
-            ArrayList<ArrayList<Livraison>> testCluster = test.getLivraisons(plan.getLivraisons(), 3);
+
+            ArrayList<Livraison> testLiv = new ArrayList<Livraison>(plan.getLivraisons().values());
+            test.calculChemin(testLiv.get(0), testLiv.get(1));
+            /*ArrayList<ArrayList<Livraison>> testCluster = test.getLivraisons(testLiv, 3);
             for(int i=0; i<testCluster.size(); i++)
             {
                 for(Livraison l : testCluster.get(i))
