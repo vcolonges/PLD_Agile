@@ -125,6 +125,30 @@ public class TSP {
         return tournee;
     }
 
+    public static ArrayList<Tournee> calculerLesTournee(ArrayList<Livraison> livraisons, int nbrLivreur, Livraison entrepot){
+        AlgoParcour algoParcour = new AlgoParcour();
+
+        for (Livraison depart: livraisons) {
+            for (Livraison arrive: livraisons) {
+                if(depart != arrive) {
+                    Chemin chemin = algoParcour.calculChemin(depart.getNoeud(), arrive.getNoeud());
+                    depart.getChemins().add(chemin);
+                }
+            }
+        }
+
+        ArrayList<ArrayList<Livraison>> listeGroupeLivraisons = algoParcour.getLivraisons(livraisons, nbrLivreur);
+
+        ArrayList<Tournee> listeTournee = new ArrayList<>();
+
+        for (ArrayList<Livraison> livraisonTournee: listeGroupeLivraisons){
+            Tournee tournee = TSP.calculerTournee(livraisonTournee, entrepot);
+            listeTournee.add(tournee);
+        }
+
+        return listeTournee;
+    }
+
     private static ArrayList<Chemin> creerListeChemins() {
         int s= arrayListToInt(livraisons)-1;
         int i, sommet;

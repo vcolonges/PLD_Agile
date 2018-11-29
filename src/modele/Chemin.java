@@ -16,6 +16,13 @@ public class Chemin {
         this.troncons = new ArrayList<>();
     }
 
+    public Chemin() {
+        this.origine = null;
+        this.destination = null;
+        this.longueur = 0;
+        this.troncons = new ArrayList<>();
+    }
+
     public Livraison getOrigine() {
         return origine;
     }
