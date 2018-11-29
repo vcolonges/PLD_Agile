@@ -21,7 +21,7 @@ public class Chemin {
     private Noeud origin;
     private Noeud destination;
     private int longueur;
-    public ArrayList<Troncon> troncons;
+    private ArrayList<Troncon> troncons;
 
     public Chemin ()
     {
@@ -46,10 +46,7 @@ public class Chemin {
         return longueur;
     }
 
-    /* Penser à passer en private arraylist tronçon
-
     public ArrayList<Troncon> getTroncons() {
         return troncons;
     }
-    */
 }

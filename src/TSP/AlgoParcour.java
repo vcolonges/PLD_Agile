@@ -42,9 +42,9 @@ public class AlgoParcour {
         ArrayList<Noeud> greyNoeuds = new ArrayList<>();
         greyNoeuds.add(depart);
         // Collection des noeuds, leur prédécesseur et la distance jusqu'à ce noeud depuis le noeud départ
-        HashMap<Long, Pair<Troncon, Double>> successorDistance = new HashMap<Long, Pair<Troncon, Double>>();
+        HashMap<Long, Paire<Troncon, Double>> successorDistance = new HashMap<Long, Paire<Troncon, Double>>();
         //initialisation de collection avec le noeud départ
-        successorDistance.put(depart.getId(), new Pair(null,0.0));
+        successorDistance.put(depart.getId(), new Paire(null,0.0));
         //on parcourt tous les noeuds gris
        for(int curNoeudIndex=0; curNoeudIndex<greyNoeuds.size(); curNoeudIndex++)
         {   //si le noeud gris est celui de la fin, on ne calcule pas ses successeurs car c'est la fin de chemin
@@ -56,7 +56,7 @@ public class AlgoParcour {
             Noeud tmpGreyNoeud = null;
             curNoeudTroncons=curNoeud.getTronconsAdjacents();
             //On récupère la distance du depart jusquà noeud prédécesseur forcement définie dans la collection
-            double curTravelDistance = successorDistance.get(curNoeud.getId()).getValue();
+            double curTravelDistance = successorDistance.get(curNoeud.getId()).getSecond();
             //on parcourt les Noeud adjacents via les troncons
             for(Troncon tmpTroncon : curNoeudTroncons)
             {
@@ -71,9 +71,9 @@ public class AlgoParcour {
                     curTravelDistance+=tmpTroncon.getLongueur();
                     //Si le noeud gris courant (tmpGreyNoeud) possède une distance plus courte à atteindre dépuis son nouveau predecesseur, on met à jour
                     // la collection
-                    if(successorDistance.get(tmpGreyNoeud.getId())==null || successorDistance.get(tmpGreyNoeud.getId()).getValue()>curTravelDistance)
+                    if(successorDistance.get(tmpGreyNoeud.getId())==null || successorDistance.get(tmpGreyNoeud.getId()).getSecond()>curTravelDistance)
                     {
-                        successorDistance.put(tmpGreyNoeud.getId(), new Pair(tmpTroncon,curTravelDistance));
+                        successorDistance.put(tmpGreyNoeud.getId(), new Paire(tmpTroncon,curTravelDistance));
                     }
                 }
             }
@@ -82,19 +82,19 @@ public class AlgoParcour {
             //greyNoeuds.remove(curNoeud); //probablément juste une perte de temps
         }
 
-        Troncon sortTroncon = successorDistance.get(fin.getId()).getKey();
+        Troncon sortTroncon = successorDistance.get(fin.getId()).getPremier();
         result.setTroncon(sortTroncon);
         while(sortTroncon.getOrigine()!=depart)
         {
-            sortTroncon= successorDistance.get(sortTroncon.getOrigine().getId()).getKey();
+            sortTroncon= successorDistance.get(sortTroncon.getOrigine().getId()).getPremier();
             result.setTroncon(0,sortTroncon);
         }
 
-        for(int i=0; i<result.troncons.size(); i++)
+        for(int i=0; i<result.getTroncons().size(); i++)
         {
-            System.out.println(result.troncons.get(i));
+            System.out.println(result.getTroncons().get(i));
         }
-        System.out.println(result.troncons.size());
+        System.out.println(result.getTroncons().size());
         return result;
     }
 
