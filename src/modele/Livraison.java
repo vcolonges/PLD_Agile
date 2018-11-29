@@ -58,7 +58,12 @@ public class Livraison {
         return chemins;
     }
 
+    public boolean addChemin(Chemin chemin){
+        return this.chemins.add(chemin);
+    }
+
     public Chemin getCheminVers(Livraison destination){
+        System.out.println(chemins.size());
         for (Chemin item: chemins) {
             if(item.getDestination() == destination){
                 return item;

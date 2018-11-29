@@ -38,4 +38,13 @@ public class Chemin {
     public ArrayList<Troncon> getTroncons() {
         return troncons;
     }
+
+    @Override
+    public String toString() {
+        return "Chemin{" +
+                "origine=" + origine.getNoeud().getId() +
+                ", destination=" + destination.getNoeud().getId() +
+                ", longueur=" + longueur +
+                '}';
+    }
 }
