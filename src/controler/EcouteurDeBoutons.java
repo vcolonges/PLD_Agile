@@ -51,7 +51,7 @@ public class EcouteurDeBoutons implements ActionListener{
                 break;
 
             case MainVue.GENERER_TOURNEES:
-                System.out.println("test");
+                //System.out.println("test");
                 controler.genererTournees();
                 break;
         }
