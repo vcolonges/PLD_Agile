@@ -1,4 +1,4 @@
-package algorithme;
+package TSP;
 
 import modele.Chemin;
 import modele.Livraison;
@@ -37,7 +37,6 @@ public class TSP {
                 if(j != -1)
                 {
                     cout[i][j] = chemin.getLongueur();
-                    System.out.println("cout["+i+"]["+j+"] = "+cout[i][j]);
                 }
             }
 
@@ -57,7 +56,6 @@ public class TSP {
                 if (estElementDe(j,s)){
                     double d = calculeD(j, enleveElement(s,j));
                     if (cout[i][j] + d < min){
-                        System.out.println("i="+i+"     j="+j+"     d="+(cout[i][j] + d)+"     min="+min);
                         memNext[i][s]=j;
                         min = cout[i][j] + d;
                     }
