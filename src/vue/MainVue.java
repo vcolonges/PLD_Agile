@@ -6,6 +6,7 @@ import controler.Controler;
 import controler.EcouteurDeComposant;
 import controler.EcouteurDeSouris;
 import controler.etat.Etat;
+import controler.etat.EtatLivraisonsCharges;
 import controler.etat.EtatPlanCharge;
 import controler.etat.EtatTournesGeneres;
 import modele.Noeud;
@@ -115,14 +116,14 @@ public class MainVue extends JFrame {
         startStimePanel.add(new JLabel("min"));
 
         genererTournees = new JButton(GENERER_TOURNEES);
-        genererTournees.disable();
+        genererTournees.setEnabled(false);
         genererTournees.addActionListener(ecouteurDeBoutons);
         JPanel genererTourneesPanel = new JPanel();
         genererTourneesPanel.setLayout(new FlowLayout());
         genererTourneesPanel.add(genererTournees);
 
         demarrerTournees = new JButton(DEMARRER_TOURNEES);
-        demarrerTournees.disable();
+        demarrerTournees.setEnabled(false);
         demarrerTournees.addActionListener(ecouteurDeBoutons);
         JPanel demarrerTourneesPanel = new JPanel();
         demarrerTourneesPanel.setLayout(new FlowLayout());
@@ -192,12 +193,11 @@ public class MainVue extends JFrame {
 
     public void setEtat(Etat etat) {
         etatLabel.setText(etat.getLabel());
-        if(etat.getClass() == EtatPlanCharge.class)
-        {
-            genererTournees.enable();
-        }else if(etat.getClass() == EtatTournesGeneres.class)
-        {
-            demarrerTournees.enable();
+        if(etat.getClass() == EtatLivraisonsCharges.class) {
+            genererTournees.setEnabled(true);
+        }
+        else if(etat.getClass() == EtatTournesGeneres.class){
+            demarrerTournees.setEnabled(true);
         }
     }
 }

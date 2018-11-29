@@ -18,7 +18,7 @@ public class EtatTournesGeneres extends Etat{
     public PopUpMenu getPopUpMenu(Plan plan, Noeud n) {
         PopUpMenu popUpMenu = new PopUpMenu();
 
-        if(plan.isInLivraisons(n))
+        if(plan.getLivraisons().containsKey(n.getId()))
         {
             JMenuItem menuItem = new JMenuItem("Changer de livreur");
             popUpMenu.add(menuItem);

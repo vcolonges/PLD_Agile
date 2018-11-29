@@ -38,12 +38,12 @@ public class MapVue extends JPanel {
                 Noeud end = t.getDestination();
                 g.drawLine((int) start.getLongitude(), (int) start.getLatitude(), (int) end.getLongitude(), (int) end.getLatitude());
             }
-            for(Livraison l : resizePlan.getLivraisons()){
+            for(Livraison l : resizePlan.getLivraisons().values()){
                 g.setColor(Color.GREEN);
                 g.fillOval((int)l.getNoeud().getLongitude()-WIDTH_DOT/2,(int)l.getNoeud().getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
             if(resizePlan.getEntrepot()!=null){
-                g.setColor(Color.YELLOW);
+                g.setColor(Color.MAGENTA);
                 g.fillOval((int)resizePlan.getEntrepot().getNoeud().getLongitude()-WIDTH_DOT/2,(int)resizePlan.getEntrepot().getNoeud().getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
 
@@ -94,7 +94,7 @@ public class MapVue extends JPanel {
             this.resizePlan.addTroncon(new Troncon(newOriginTroncon,newDestinationTroncon,t.getLongueur(),t.getNomRue()));
 
         }
-        for(Livraison l : controler.getPlan().getLivraisons()){
+        for(Livraison l : controler.getPlan().getLivraisons().values()){
             this.resizePlan.addLivraison(new Livraison(this.resizePlan.getNoeuds().get(l.getNoeud().getId()),l.getDuree()));
         }
         if(controler.getPlan().getEntrepot()!=null)
