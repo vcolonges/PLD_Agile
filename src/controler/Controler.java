@@ -98,7 +98,7 @@ public class Controler {
             }
         }
         plan.setTournees(tournee);
-        mainvue.getMapPanel().tracerTournees(tournee);
+        mainvue.repaint();
     }
 
     public void demarrerTournees() {

@@ -142,8 +142,4 @@ public class MapVue extends JPanel {
 
         repaint();
     }
-
-    public void tracerTournees(ArrayList<Tournee> tournee) {
-
-    }
 }
