@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,12 +14,14 @@ public class Plan {
     private Livraison entrepot;
     private Date heureDepart;
     private ArrayList<Tournee> tournees;
+    private int nbLivreurs;
 
     public Plan(){
         this.noeuds = new HashMap<>();
         this.troncons = new HashSet<>();
         this.livraisons = new HashMap<>();
         this.tournees = new ArrayList<>();
+        this.nbLivreurs = 1;
     }
 
     public HashMap<Long, Noeud> getNoeuds(){
@@ -110,6 +113,14 @@ public class Plan {
 
     public void setTournees(ArrayList<Tournee> tournees) {
         this.tournees = tournees;
+    }
+
+    public int getNbLivreurs() {
+        return nbLivreurs;
+    }
+
+    public void setNbLivreurs(int nbLivreurs) {
+        this.nbLivreurs = nbLivreurs;
     }
 
     @Override

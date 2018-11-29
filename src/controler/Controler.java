@@ -91,14 +91,17 @@ public class Controler {
         mainvue.setEtat(etat);
         ArrayList<Livraison> livraisons = new ArrayList<>();
         livraisons.addAll(plan.getLivraisons().values());
-        ArrayList<Tournee> tournee = TSP.calculerLesTournees(livraisons,2,plan.getEntrepot());
+        ArrayList<Tournee> tournee = TSP.calculerLesTournees(livraisons,plan.getNbLivreurs(),plan.getEntrepot());
         for(Tournee t : tournee){
+            System.out.println("\n\nTOURNEE : ");
             for(Chemin c : t.getChemins()){
-                System.out.println(c);
+                System.out.println("\n"+c);
+                for(Troncon tc : c.getTroncons()){
+                    System.out.println(tc);
+                }
             }
         }
-        plan.setTournees(tournee);
-        mainvue.repaint();
+        mainvue.getMapPanel().tracerTournee(tournee);
     }
 
     public void demarrerTournees() {

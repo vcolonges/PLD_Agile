@@ -54,6 +54,13 @@ public class EcouteurDeBoutons implements ActionListener{
                 //System.out.println("test");
                 controler.genererTournees();
                 break;
+
+            case "comboBoxChanged":
+                if(controler.getPlan() != null) {
+                    JComboBox nbLivreurs = (JComboBox) e.getSource();
+                    controler.getPlan().setNbLivreurs(Integer.parseInt(nbLivreurs.getSelectedItem().toString()));
+                }
+                break;
         }
     }
 }

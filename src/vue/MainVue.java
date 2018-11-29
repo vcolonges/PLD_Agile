@@ -10,12 +10,14 @@ import controler.etat.EtatLivraisonsCharges;
 import controler.etat.EtatPlanCharge;
 import controler.etat.EtatTournesGeneres;
 import modele.Noeud;
+import modele.Tournee;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class MainVue extends JFrame {
 
@@ -92,7 +94,8 @@ public class MainVue extends JFrame {
         nbPersonPanel.add(new JLabel("Nombre de livreurs"));
 
         JComboBox nbLivreurs = new JComboBox();
-        for(int i = 1; i < 15; i++)
+        nbLivreurs.addActionListener(ecouteurDeBoutons);
+        for(int i = 1; i < 16; i++)
             nbLivreurs.addItem(""+i);
         nbLivreurs.setMaximumSize( nbLivreurs.getPreferredSize() );
         nbPersonPanel.add(nbLivreurs);

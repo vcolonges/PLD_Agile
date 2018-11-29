@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -35,6 +36,18 @@ public class MapVue extends JPanel {
                 Noeud start = t.getOrigine();
                 Noeud end = t.getDestination();
                 g.drawLine((int) start.getLongitude(), (int) start.getLatitude(), (int) end.getLongitude(), (int) end.getLatitude());
+            }
+            if(resizePlan.getTournees() != null){
+                g.setColor(Color.CYAN);
+                for(Tournee tournee : resizePlan.getTournees()) {
+                    for (Chemin chemin : tournee.getChemins()) {
+                        for (Troncon troncon : chemin.getTroncons()) {
+                            Noeud start_tournee = troncon.getOrigine();
+                            Noeud end_tournee = troncon.getDestination();
+                            g.drawLine((int) start_tournee.getLongitude(), (int) start_tournee.getLatitude(), (int) end_tournee.getLongitude(), (int) end_tournee.getLatitude());
+                        }
+                    }
+                }
             }
             for(Livraison l : resizePlan.getLivraisons().values()){
                 g.setColor(Color.GREEN);
@@ -140,6 +153,39 @@ public class MapVue extends JPanel {
             }
         }
 
+        repaint();
+    }
+
+    public void tracerTournee(ArrayList<Tournee> tournees) {
+        long originID;
+        long destinationID;
+        Noeud newOriginTroncon = null;
+        Noeud newDestinationTroncon = null;
+        ArrayList<Tournee> newTournees = new ArrayList<>();
+        for(Tournee tournee : tournees) {
+            for (Chemin chemin : tournee.getChemins()) {
+                for (Troncon troncon : chemin.getTroncons()) {
+                        originID = troncon.getOrigine().getId();
+                        destinationID = troncon.getDestination().getId();
+
+                        newOriginTroncon = this.resizePlan.getNoeuds().get(originID);
+                        newDestinationTroncon = this.resizePlan.getNoeuds().get(destinationID);
+
+                        troncon.setOrigine(newOriginTroncon);
+                        troncon.setDestination(newDestinationTroncon);
+                }
+            }
+        }
+        for(Tournee tournee : tournees) {
+            for (Chemin chemin : tournee.getChemins()) {
+                for (Troncon troncon : chemin.getTroncons()) {
+                    System.out.println(troncon.getOrigine());
+                    System.out.println(troncon.getDestination());
+                    System.out.println("\n");
+                }
+            }
+        }
+        resizePlan.setTournees(tournees);
         repaint();
     }
 }

@@ -2,7 +2,6 @@ package TSP;
 
 import modele.Chemin;
 import modele.Livraison;
-import modele.Noeud;
 import modele.Tournee;
 
 import java.util.ArrayList;
@@ -131,10 +130,17 @@ public class TSP {
         for (Livraison depart: livraisons) {
             for (Livraison arrive: livraisons) {
                 if(depart != arrive) {
-                    Chemin chemin = algoParcour.calculChemin(depart.getNoeud(), arrive.getNoeud());
+                    Chemin chemin = algoParcour.calculChemin(depart, arrive);
                     depart.addChemin(chemin);
                 }
             }
+        }
+        for(Livraison livraison: livraisons){
+            Chemin cheminEntrepotLivraison = algoParcour.calculChemin(entrepot, livraison);
+            Chemin cheminLivraisonEntrepot = algoParcour.calculChemin(livraison, entrepot);
+
+            entrepot.addChemin(cheminEntrepotLivraison);
+            livraison.addChemin(cheminLivraisonEntrepot);
         }
 
         ArrayList<ArrayList<Livraison>> listeGroupeLivraisons = algoParcour.getLivraisons(livraisons, nbrLivreur);
