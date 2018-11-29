@@ -96,8 +96,9 @@ public class Controler {
             for(Chemin c : t.getChemins()){
                 System.out.println(c);
             }
-
         }
+        plan.setTournees(tournee);
+        mainvue.getMapPanel().tracerTournees(tournee);
     }
 
     public void demarrerTournees() {

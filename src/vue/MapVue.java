@@ -1,14 +1,12 @@
 package vue;
 
 import controler.Controler;
-import modele.Livraison;
-import modele.Noeud;
-import modele.Plan;
-import modele.Troncon;
+import modele.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -143,5 +141,9 @@ public class MapVue extends JPanel {
         }
 
         repaint();
+    }
+
+    public void tracerTournees(ArrayList<Tournee> tournee) {
+
     }
 }
