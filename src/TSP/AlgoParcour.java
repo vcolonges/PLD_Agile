@@ -84,18 +84,18 @@ public class AlgoParcour {
         }
 
         Troncon sortTroncon = successorDistance.get(fin.getId()).getPremier();
-        result.setTroncon(sortTroncon);
+        result.getTroncons().add(sortTroncon);
         while(sortTroncon.getOrigine()!=depart)
         {
             sortTroncon= successorDistance.get(sortTroncon.getOrigine().getId()).getPremier();
-            result.setTroncon(0,sortTroncon);
+            result.getTroncons().add(sortTroncon);
         }
 
         for(int i=0; i<result.getTroncons().size(); i++)
         {
             System.out.println(result.getTroncons().get(i));
         }
-        System.out.println(result.getTroncons().size());
+
         return result;
     }
 
