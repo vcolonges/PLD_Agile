@@ -9,9 +9,9 @@ public class Application {
         try {
             Plan plan;
             XMLParser xmlParser = new XMLParser();
-            plan = xmlParser.parsePlan("src/petitPlan.xml");
+            plan = xmlParser.parsePlan("src/grandPlan.xml");
 
-            plan = xmlParser.parseTrajets("src/dl-petit-6.xml", plan);
+            plan = xmlParser.parseTrajets("src/dl-grand-20.xml", plan);
 
             AlgoParcour test = new AlgoParcour();
             test.calculChemin(plan.getLivraisons().get(0).getNoeud(), plan.getLivraisons().get(1).getNoeud());

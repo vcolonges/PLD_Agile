@@ -31,6 +31,7 @@ public class AlgoParcour {
     public Chemin calculChemin(Noeud depart, Noeud fin) {
         //initialisation
         Chemin result = new Chemin();
+        result.setOrigin(depart);
         // ensemble des troncons adjacents à un noeud
         HashSet<Troncon> curNoeudTroncons = null;
         // Noeud dont tous les succeeceurs sont grisés
