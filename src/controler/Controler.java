@@ -1,20 +1,23 @@
 package controler;
 
+import TSP.AlgoParcour;
 import controler.etat.*;
 import exceptions.XMLException;
-import modele.Noeud;
-import modele.Plan;
+import modele.*;
 import vue.MainVue;
 import xml_manager.XMLParser;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class Controler {
 
     private Plan plan;
     private MainVue mainvue;
     private Etat etat;
+    private AlgoParcour algo;
+
     /**
      * Cree le controleur de l'application
      */
@@ -22,6 +25,7 @@ public class Controler {
         this.mainvue = vue;
         etat = new EtatDebut();
         mainvue.setEtat(etat);
+        algo = new AlgoParcour();
     }
 
     public void chargerPlan(String lienPlan){
@@ -83,6 +87,12 @@ public class Controler {
     public void genererTournees() {
         etat = new EtatTournesGeneres();
         mainvue.setEtat(etat);
+        ArrayList<Chemin> ensembleDeTSP = null;
+
+        for(int i=0;i<plan.getLivraisons().size();i++){
+            Chemin result = algo.calculChemin(plan.getLivraisons().get(i).getNoeud(), plan.getLivraisons().get((i+1)).getNoeud());
+            ensembleDeTSP.add(result);
+        }
     }
 
     public void demarrerTournees() {

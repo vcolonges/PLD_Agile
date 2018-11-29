@@ -4,26 +4,31 @@ import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 import modele.Livraison;
 import modele.Noeud;
+import modele.Chemin;
 import modele.Troncon;
 
 import java.util.*;
 
+/*
 class Chemin
 {
    Noeud origin;
    Noeud destination;
    int longueur;
    ArrayList<Troncon> troncons;
-    public Chemin ()
+
+   public Chemin ()
     {
         troncons = new ArrayList<>();
     }
+
    void setTroncon(Troncon troncon){this.troncons.add(troncon);}
    void setTroncon(int index, Troncon troncon){this.troncons.add(index, troncon);}
    void setOrigin(Noeud noeud){this.origin = noeud;}
    void setDestination(Noeud noeud){this.destination=noeud;}
    void setLongueur(int pLong){this.longueur=pLong;}
 }
+*/
 
 public class AlgoParcour {
     //calculer 1e plus court chemin entre 2 livraisons
