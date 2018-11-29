@@ -58,8 +58,8 @@ public class Troncon {
     @Override
     public String toString() {
         return "Troncon{" +
-                "origine=" + origine +
-                ", destination=" + destination +
+                "origine=" + origine.getId() +
+                ", destination=" + destination.getId() +
                 ", longueur=" + longueur +
                 ", nomRue='" + nomRue + '\'' +
                 "}\r\n";

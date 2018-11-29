@@ -16,11 +16,19 @@ public class Chemin {
         this.troncons = new ArrayList<>();
     }
 
+    public Livraison getOrigine() {
+        return origine;
+    }
+
     public Livraison getDestination() {
         return destination;
     }
 
     public double getLongueur() {
         return longueur;
+    }
+
+    public ArrayList<Troncon> getTroncons() {
+        return troncons;
     }
 }

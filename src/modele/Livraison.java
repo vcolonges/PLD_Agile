@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Objects;
+
 import java.util.HashSet;
 
 public class Livraison {
@@ -28,6 +30,28 @@ public class Livraison {
 
     public void setDuree(int duree) {
         this.duree = duree;
+    }
+
+    @Override
+    public String toString() {
+        return "Livraison{" +
+                "noeud=" + noeud +
+                ", duree=" + duree +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Livraison livraison = (Livraison) o;
+        return duree == livraison.duree &&
+                Objects.equals(noeud, livraison.noeud);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(noeud, duree);
     }
 
     public HashSet<Chemin> getChemins() {

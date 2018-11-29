@@ -1,19 +1,25 @@
 package modele;
 
+import java.util.ArrayList;
+import java.util.Date;
+import jdk.jshell.spi.ExecutionControl;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.*;
 
 public class Plan {
 
     private HashMap<Long, Noeud> noeuds;
     private HashSet<Troncon> troncons;
-    private Noeud entrepot;
+    private HashMap<Long, Livraison> livraisons;
+    private Livraison entrepot;
     private Date heureDepart;
 
     public Plan(){
         this.noeuds = new HashMap<>();
         this.troncons = new HashSet<>();
+        this.livraisons = new HashMap<>();
     }
 
     public HashMap<Long, Noeud> getNoeuds(){
@@ -36,11 +42,58 @@ public class Plan {
         return this.troncons.add(troncon);
     }
 
-    public Noeud getEntrepot() {
+    public double getMaxLat(){
+        double max = -180;
+        for(Noeud n : noeuds.values())
+        {
+            if(max<n.getLatitude()) max = n.getLatitude();
+        }
+        return max;
+    }
+
+    public double getMaxLong(){
+        double max = -180;
+        for(Noeud n : noeuds.values())
+        {
+            if(max<n.getLongitude()) max = n.getLongitude();
+        }
+        return max;
+    }
+
+    public double getMinLat(){
+        double min = 180;
+        for(Noeud n : noeuds.values())
+        {
+            if(min>n.getLatitude()) min = n.getLatitude();
+        }
+        return min;
+    }
+
+    public double getMinLong(){
+        double min = 180;
+        for(Noeud n : noeuds.values())
+        {
+            if(min>n.getLongitude()) min = n.getLongitude();
+        }
+        return min;
+    }
+    public HashMap<Long, Livraison> getLivraisons() {
+        return livraisons;
+    }
+
+    public boolean addLivraison(Livraison livraison) {
+        if(this.livraisons.containsKey(livraison.getNoeud().getId())){
+            return false;
+        }
+        this.livraisons.put(livraison.getNoeud().getId(), livraison);
+        return true;
+    }
+
+    public Livraison getEntrepot() {
         return entrepot;
     }
 
-    public void setEntrepot(Noeud entrepot) {
+    public void setEntrepot(Livraison entrepot) {
         this.entrepot = entrepot;
     }
 
@@ -52,11 +105,15 @@ public class Plan {
         this.heureDepart = heureDepart;
     }
 
+
     @Override
     public String toString() {
         return "Plan{" +
                 "noeuds=" + noeuds +
                 ", troncons=" + troncons +
+                ", livraisons=" + livraisons +
+                ", entrepot=" + entrepot +
+                ", heureDepart=" + heureDepart +
                 '}';
     }
 }
