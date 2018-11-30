@@ -151,4 +151,26 @@ public class Plan {
                 ", heureDepart=" + heureDepart +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Plan plan = (Plan) o;
+
+        if (noeuds != null ? !noeuds.equals(plan.noeuds) : plan.noeuds != null) return false;
+        if (troncons != null ? !troncons.equals(plan.troncons) : plan.troncons != null) return false;
+        if (entrepot != null ? !entrepot.equals(plan.entrepot) : plan.entrepot != null) return false;
+        return heureDepart != null ? heureDepart.equals(plan.heureDepart) : plan.heureDepart == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = noeuds != null ? noeuds.hashCode() : 0;
+        result = 31 * result + (troncons != null ? troncons.hashCode() : 0);
+        result = 31 * result + (entrepot != null ? entrepot.hashCode() : 0);
+        result = 31 * result + (heureDepart != null ? heureDepart.hashCode() : 0);
+        return result;
+    }
 }
