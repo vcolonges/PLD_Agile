@@ -19,7 +19,6 @@ public class EcouteurDeBoutons implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("In action performed");
 
         // Methode appelee par l'ecouteur de boutons a chaque fois qu'un bouton est clique
         // Envoi au controleur du message correspondant au bouton clique

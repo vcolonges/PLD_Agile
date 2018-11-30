@@ -49,7 +49,7 @@ public class TSP {
         if (estVide(s)) return cout[i][0];
         if(memD[i][s] == -1)
         {
-            double min = 10000;
+            double min = Double.MAX_VALUE;
 
             for (int j=1; j<nbLivraisons; j++){
                 if (estElementDe(j,s)){
@@ -127,20 +127,22 @@ public class TSP {
     public static ArrayList<Tournee> calculerLesTournees(ArrayList<Livraison> livraisons, int nbrLivreur, Livraison entrepot){
         AlgoParcour algoParcour = new AlgoParcour();
 
-        for (Livraison depart: livraisons) {
-            for (Livraison arrive: livraisons) {
-                if(depart != arrive) {
-                    Chemin chemin = algoParcour.calculChemin(depart, arrive);
-                    depart.addChemin(chemin);
+        if(livraisons.get(0).getChemins().size()==0) {
+            for (Livraison depart : livraisons) {
+                for (Livraison arrive : livraisons) {
+                    if (depart != arrive) {
+                        Chemin chemin = algoParcour.calculChemin(depart, arrive);
+                        depart.addChemin(chemin);
+                    }
                 }
             }
-        }
-        for(Livraison livraison: livraisons){
-            Chemin cheminEntrepotLivraison = algoParcour.calculChemin(entrepot, livraison);
-            Chemin cheminLivraisonEntrepot = algoParcour.calculChemin(livraison, entrepot);
+            for (Livraison livraison : livraisons) {
+                Chemin cheminEntrepotLivraison = algoParcour.calculChemin(entrepot, livraison);
+                Chemin cheminLivraisonEntrepot = algoParcour.calculChemin(livraison, entrepot);
 
-            entrepot.addChemin(cheminEntrepotLivraison);
-            livraison.addChemin(cheminLivraisonEntrepot);
+                entrepot.addChemin(cheminEntrepotLivraison);
+                livraison.addChemin(cheminLivraisonEntrepot);
+            }
         }
 
         ArrayList<ArrayList<Livraison>> listeGroupeLivraisons = algoParcour.getLivraisons(livraisons, nbrLivreur);

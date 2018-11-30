@@ -41,6 +41,8 @@ public class MainVue extends JFrame {
     private final JButton genererTournees;
     private final JLabel etatLabel;
     private final JButton demarrerTournees;
+    private final JMenuItem chargerPlanXML;
+    private final JMenuItem chargerLivraisonXML;
 
     private Controler controler;
 
@@ -59,7 +61,7 @@ public class MainVue extends JFrame {
         BorderLayout mainLayout = new BorderLayout();
         this.setLayout(mainLayout);
 
-        mapPanel.setBackground(Color.BLUE);
+        //mapPanel.setBackground(Color.BLUE);
 
         // Création mousePosition Panel
         JPanel debugPanel = new JPanel(new FlowLayout());
@@ -145,8 +147,9 @@ public class MainVue extends JFrame {
 
 
         //Poptlation de la menubar
-        JMenuItem chargerPlanXML = new JMenuItem(CHARGER_PLAN);
-        JMenuItem chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
+        chargerPlanXML = new JMenuItem(CHARGER_PLAN);
+        chargerLivraisonXML = new JMenuItem(CHARGER_LIVRAISON);
+        chargerLivraisonXML.setEnabled(false);
         chargerPlanXML.addActionListener(ecouteurDeBoutons);
         chargerLivraisonXML.addActionListener(ecouteurDeBoutons);
 
@@ -198,8 +201,14 @@ public class MainVue extends JFrame {
 
     public void setEtat(Etat etat) {
         etatLabel.setText(etat.getLabel());
-        if(etat.getClass() == EtatLivraisonsCharges.class) {
+        if(etat.getClass() == EtatPlanCharge.class) {
+            genererTournees.setEnabled(false);
+            demarrerTournees.setEnabled(false);
+            chargerLivraisonXML.setEnabled(true);
+        }
+        else if(etat.getClass() == EtatLivraisonsCharges.class) {
             genererTournees.setEnabled(true);
+            demarrerTournees.setEnabled(false);
         }
         else if(etat.getClass() == EtatTournesGeneres.class){
             demarrerTournees.setEnabled(true);
