@@ -101,6 +101,7 @@ public class Controler {
                 }
             }
         }
+        plan.setTournees(tournee);
         mainvue.getMapPanel().tracerTournee(tournee);
     }
 

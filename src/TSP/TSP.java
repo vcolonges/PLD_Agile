@@ -49,7 +49,7 @@ public class TSP {
         if (estVide(s)) return cout[i][0];
         if(memD[i][s] == -1)
         {
-            double min = 10000;
+            double min = Double.MAX_VALUE;
 
             for (int j=1; j<nbLivraisons; j++){
                 if (estElementDe(j,s)){

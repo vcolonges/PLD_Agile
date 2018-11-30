@@ -57,7 +57,7 @@ public class MainVue extends JFrame {
         BorderLayout mainLayout = new BorderLayout();
         this.setLayout(mainLayout);
 
-        mapPanel.setBackground(Color.BLUE);
+        //mapPanel.setBackground(Color.BLUE);
 
         // Création mousePosition Panel
         JPanel debugPanel = new JPanel(new FlowLayout());
