@@ -1,13 +1,16 @@
 package controler.etat;
 
+import controler.Controler;
 import modele.Noeud;
 import modele.Plan;
 import vue.PopUpMenu;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class EtatClientsAvertis extends Etat {
-    public EtatClientsAvertis() {
+    public EtatClientsAvertis(Controler c) {
+        super(c);
         label = "Clients avertis";
     }
 
@@ -25,14 +28,13 @@ public class EtatClientsAvertis extends Etat {
         {
             JMenuItem menuItem = new JMenuItem("Supprimer une livraison");
             popUpMenu.add(menuItem);
-            menuItem.addActionListener(e -> supprimerLivraisonApresLancement(plan, n));
+            menuItem.addActionListener(e -> supprimerLivraisonApresLancement(n));
         }
         return popUpMenu;
     }
 
-    private void supprimerLivraisonApresLancement(Plan plan, Noeud n) {
-        //TODO
-        //plan.getLivraisons().remove(n.getId());
+    private void supprimerLivraisonApresLancement(Noeud n) {
+        controler.supprimerLivraison(n);
     }
 
     public void ajouterLivraisonApresLancement(Noeud n){

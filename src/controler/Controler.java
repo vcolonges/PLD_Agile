@@ -25,7 +25,7 @@ public class Controler {
      */
     public Controler(MainVue vue) {
         this.mainvue = vue;
-        etat = new EtatDebut();
+        etat = new EtatDebut(this);
         mainvue.setEtat(etat);
         algo = new AlgoParcour();
     }
@@ -36,7 +36,7 @@ public class Controler {
                 plan.getNoeuds().clear();
             plan = XMLParser.parsePlan(lienPlan);
             mainvue.getMapPanel().loadPlan(plan);
-            etat = new EtatPlanCharge();
+            etat = new EtatPlanCharge(this);
             mainvue.setEtat(etat);
         } catch (XMLException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class Controler {
                 plan.getLivraisons().clear();
                 plan = XMLParser.parseTrajets(lienLivraisons, plan);
                 mainvue.getMapPanel().loadPlan(plan);
-                etat = new EtatLivraisonsCharges();
+                etat = new EtatLivraisonsCharges(this);
                 mainvue.setEtat(etat);
             } catch (XMLException e) {
                 e.printStackTrace();
@@ -87,7 +87,7 @@ public class Controler {
     }
 
     public void genererTournees() {
-        etat = new EtatTournesGeneres();
+        etat = new EtatTournesGeneres(this);
         mainvue.setEtat(etat);
         ArrayList<Livraison> livraisons = new ArrayList<>();
         livraisons.addAll(plan.getLivraisons().values());
@@ -101,11 +101,16 @@ public class Controler {
                 }
             }
         }
+        plan.setTournees(tournee);
         mainvue.getMapPanel().tracerTournee(tournee);
     }
 
+    public void supprimerLivraison(Noeud n){
+
+        mainvue.deletePoint(n);
+    }
     public void demarrerTournees() {
-        etat = new EtatClientsAvertis();
+        etat = new EtatClientsAvertis(this);
         mainvue.setEtat(etat);
     }
 }
