@@ -34,10 +34,10 @@ class Chemin
 public class AlgoParcour {
     //calculer 1e plus court chemin entre 2 livraisons
     // à recoder avec une somme pour eviter des boucles
-    public Chemin calculChemin(Livraison departLiv, Livraison finLiv) {
+    public ArrayList<Chemin> calculChemin(Livraison departLiv, ArrayList<Livraison> livraisons) {
         //initialisation
+        ArrayList<Chemin> result = new ArrayList<>();
         Noeud depart = departLiv.getNoeud();
-        Noeud fin = finLiv.getNoeud();
 
         // ensemble des troncons adjacents à un noeud
         HashSet<Troncon> curNoeudTroncons = null;
@@ -51,51 +51,51 @@ public class AlgoParcour {
         //initialisation de collection avec le noeud départ
         successorDistance.put(depart.getId(), new Paire(null,0.0));
         //on parcourt tous les noeuds gris
-       for(int curNoeudIndex=0; curNoeudIndex<greyNoeuds.size(); curNoeudIndex++) {   //si le noeud gris est celui de la fin, on ne calcule pas ses successeurs car c'est la fin de chemin
-           Noeud curNoeud = greyNoeuds.get(curNoeudIndex);
-           if (curNoeud == fin) {
-               continue;
-           }
-           Noeud tmpGreyNoeud = null;
-           curNoeudTroncons = curNoeud.getTronconsAdjacents();
-           //On récupère la distance du depart jusquà noeud prédécesseur forcement définie dans la collection
-           double curTravelDistance = successorDistance.get(curNoeud.getId()).getSecond();
-           //on parcourt les Noeud adjacents via les troncons
-           for (Troncon tmpTroncon : curNoeudTroncons) {
-               //on calcule la distance au noeud seulement s'il n'est pas dans blackNoeud
-               if (!blackNoeud.contains(tmpTroncon.getDestination())) //****Complexité O(n), peut être amélioré
-               {
-                   tmpGreyNoeud = tmpTroncon.getDestination();
-                   //On ajoute les noeuds découverts dans greyNoeud seulement si on a pas déjà decouvert le noeud fin (omplexité O(1))
-                   if (!successorDistance.containsKey(fin.getId())) {
-                       greyNoeuds.add(tmpGreyNoeud);
-                   }
-                   curTravelDistance += tmpTroncon.getLongueur();
-                   //Si le noeud gris courant (tmpGreyNoeud) possède une distance plus courte à atteindre dépuis son nouveau predecesseur, on met à jour
-                   // la collection
-                   if (successorDistance.get(tmpGreyNoeud.getId()) == null || successorDistance.get(tmpGreyNoeud.getId()).getSecond() > curTravelDistance) {
-                       successorDistance.put(tmpGreyNoeud.getId(), new Paire(tmpTroncon, curTravelDistance));
-                   }
-               }
-           }
-           //une fois tous les noeud adjacents du curNoeud parcouru, on l'ajoute dans blackNoeud
-           blackNoeud.add(curNoeud);
-           //greyNoeuds.remove(curNoeud); //probablément juste une perte de temps
-       }
-
-        Troncon sortTroncon = successorDistance.get(fin.getId()).getPremier();
-        Chemin result = new Chemin(departLiv, finLiv, successorDistance.get(fin.getId()).getSecond());
-        result.getTroncons().add(sortTroncon);
-        while(sortTroncon.getOrigine()!=depart)
-        {
-            sortTroncon= successorDistance.get(sortTroncon.getOrigine().getId()).getPremier();
-            result.getTroncons().add(0,sortTroncon);
+        for(int curNoeudIndex=0; curNoeudIndex<greyNoeuds.size(); curNoeudIndex++)
+        {   //si le noeud gris est celui de la fin, on ne calcule pas ses successeurs car c'est la fin de chemin
+            Noeud curNoeud = greyNoeuds.get(curNoeudIndex);
+            Noeud tmpGreyNoeud = null;
+            curNoeudTroncons=curNoeud.getTronconsAdjacents();
+            //On récupère la distance du depart jusquà noeud prédécesseur forcement définie dans la collection
+            double curTravelDistance = successorDistance.get(curNoeud.getId()).getSecond();
+            //on parcourt les Noeud adjacents via les troncons
+            for(Troncon tmpTroncon : curNoeudTroncons)
+            {
+                //on calcule la distance au noeud seulement s'il n'est pas dans blackNoeud
+                if(!blackNoeud.contains(tmpTroncon.getDestination())) //****Complexité O(n), peut être amélioré
+                {
+                    tmpGreyNoeud=tmpTroncon.getDestination();
+                    //On ajoute les noeuds découverts dans greyNoeud seulement s'il n'est pasdéjà present (complexité O(1))
+                    if(!greyNoeuds.contains(tmpGreyNoeud))
+                    {
+                        greyNoeuds.add(tmpGreyNoeud);
+                    }
+                    curTravelDistance+=tmpTroncon.getLongueur();
+                    //Si le noeud gris courant (tmpGreyNoeud) possède une distance plus courte à atteindre dépuis son nouveau predecesseur, on met à jour
+                    // la collection
+                    if(successorDistance.get(tmpGreyNoeud.getId())==null || successorDistance.get(tmpGreyNoeud.getId()).getSecond()>curTravelDistance)
+                    {
+                        successorDistance.put(tmpGreyNoeud.getId(), new Paire(tmpTroncon,curTravelDistance));
+                    }
+                }
+            }
+            //une fois tous les noeud adjacents du curNoeud parcouru, on l'ajoute dans blackNoeud
+            blackNoeud.add(curNoeud);
+            //greyNoeuds.remove(curNoeud); //probablément juste une perte de temps
         }
 
-       /* for(int i=0; i<result.getTroncons().size(); i++)
-        {
-            System.out.println(result.getTroncons().get(i));
-        }*/
+        for(Livraison livrison : livraisons) {
+            if(livrison!=departLiv) {
+                Troncon sortTroncon = successorDistance.get(livrison.getNoeud().getId()).getPremier();
+                Chemin tmpChemin = new Chemin(departLiv, livrison, successorDistance.get(livrison.getNoeud().getId()).getSecond());
+                tmpChemin.getTroncons().add(sortTroncon);
+                while (sortTroncon.getOrigine() != depart) {
+                    sortTroncon = successorDistance.get(sortTroncon.getOrigine().getId()).getPremier();
+                    tmpChemin.getTroncons().add(0, sortTroncon);
+                }
+                result.add(tmpChemin);
+            }
+        }
 
         return result;
     }

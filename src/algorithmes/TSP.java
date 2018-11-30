@@ -127,23 +127,17 @@ public class TSP {
     public static ArrayList<Tournee> calculerLesTournees(ArrayList<Livraison> livraisons, int nbrLivreur, Livraison entrepot){
         AlgoParcour algoParcour = new AlgoParcour();
 
-        if(livraisons.get(0).getChemins().size()==0) {
-            for (Livraison depart : livraisons) {
-                for (Livraison arrive : livraisons) {
-                    if (depart != arrive) {
-                        Chemin chemin = algoParcour.calculChemin(depart, arrive);
-                        depart.addChemin(chemin);
-                    }
-                }
-            }
-            for (Livraison livraison : livraisons) {
-                Chemin cheminEntrepotLivraison = algoParcour.calculChemin(entrepot, livraison);
-                Chemin cheminLivraisonEntrepot = algoParcour.calculChemin(livraison, entrepot);
+        ArrayList<Livraison> livraisonsEntrepot = new ArrayList<>(livraisons);
+        livraisonsEntrepot.add(entrepot);
 
-                entrepot.addChemin(cheminEntrepotLivraison);
-                livraison.addChemin(cheminLivraisonEntrepot);
-            }
+        for (Livraison depart: livraisons) {
+            ArrayList<Chemin> chemins = algoParcour.calculChemin(depart, livraisonsEntrepot); // entrepot parfois absent
+            depart.getChemins().addAll(chemins);
+
         }
+
+        ArrayList<Chemin> chemins = algoParcour.calculChemin(entrepot, livraisons);
+        entrepot.getChemins().addAll(chemins);
 
         ArrayList<ArrayList<Livraison>> listeGroupeLivraisons = algoParcour.getLivraisons(livraisons, nbrLivreur);
 
