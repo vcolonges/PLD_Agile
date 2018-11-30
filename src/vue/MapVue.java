@@ -97,7 +97,7 @@ public class MapVue extends JPanel {
                 g.fillOval((int)resizePlan.getEntrepot().getNoeud().getLongitude()-WIDTH_DOT/2,(int)resizePlan.getEntrepot().getNoeud().getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
 
-            g.setColor(Color.RED);
+            g.setColor(Color.yellow);
             while(!hoveredNodes.isEmpty())
             {
                 Noeud hoveredNode = hoveredNodes.poll();
@@ -105,7 +105,7 @@ public class MapVue extends JPanel {
             }
             if(deletedNodes!= null){
                 for(Noeud n : deletedNodes){
-                    g.setColor(Color.RED);
+                    g.setColor(Color.gray);
                     g.fillOval((int) n.getLongitude() - WIDTH_DOT / 2, (int) n.getLatitude() - WIDTH_DOT / 2, WIDTH_DOT, WIDTH_DOT);
                 }
             }
