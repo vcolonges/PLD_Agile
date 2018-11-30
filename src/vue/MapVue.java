@@ -17,13 +17,14 @@ public class MapVue extends JPanel {
     private Controler controler;
     private Plan resizePlan;
     private Queue<Noeud> hoveredNodes;
-
+    private ArrayList<Noeud> deletedNodes;
     private final static int WIDTH_DOT = 10;
     private final static int PADDING = 10;
 
     public MapVue(){
-        hoveredNodes = new LinkedBlockingDeque<>();}
-
+        hoveredNodes = new LinkedBlockingDeque<>();
+        deletedNodes = new ArrayList<>();
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -64,6 +65,13 @@ public class MapVue extends JPanel {
                 Noeud hoveredNode = hoveredNodes.poll();
                 g.fillOval((int)hoveredNode.getLongitude() - WIDTH_DOT/2,(int)hoveredNode.getLatitude()-WIDTH_DOT/2,WIDTH_DOT,WIDTH_DOT);
             }
+            if(deletedNodes!= null){
+                for(Noeud n : deletedNodes){
+                    g.setColor(Color.RED);
+                    g.fillOval((int) n.getLongitude() - WIDTH_DOT / 2, (int) n.getLatitude() - WIDTH_DOT / 2, WIDTH_DOT, WIDTH_DOT);
+                }
+            }
+
         }
     }
 
@@ -187,5 +195,9 @@ public class MapVue extends JPanel {
         }
         resizePlan.setTournees(tournees);
         repaint();
+    }
+
+    public void deletePoint(Noeud n){
+        deletedNodes.add(this.resizePlan.getNoeuds().get(n.getId()));
     }
 }

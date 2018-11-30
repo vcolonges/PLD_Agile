@@ -10,7 +10,9 @@ import controler.etat.EtatLivraisonsCharges;
 import controler.etat.EtatPlanCharge;
 import controler.etat.EtatTournesGeneres;
 import modele.Noeud;
+import modele.Plan;
 import modele.Tournee;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -202,6 +204,11 @@ public class MainVue extends JFrame {
         else if(etat.getClass() == EtatTournesGeneres.class){
             demarrerTournees.setEnabled(true);
         }
+    }
+
+    public void deletePoint(Noeud n){
+
+        mapPanel.deletePoint(n);
     }
 }
 

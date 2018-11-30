@@ -1,12 +1,14 @@
 package controler.etat;
 
+import controler.Controler;
 import modele.Noeud;
 import modele.Plan;
 import vue.PopUpMenu;
 
 public class EtatPlanCharge extends Etat {
 
-    public EtatPlanCharge() {
+    public EtatPlanCharge(Controler c) {
+        super(c);
         label = "Plan chargé";
     }
 

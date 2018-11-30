@@ -1,5 +1,6 @@
 package controler.etat;
 
+import controler.Controler;
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
@@ -10,7 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class EtatTournesGeneres extends Etat{
-    public EtatTournesGeneres() {
+    public EtatTournesGeneres(Controler c) {
+        super(c);
         label = "Tournés générés";
     }
 
