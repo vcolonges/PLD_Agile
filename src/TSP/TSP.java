@@ -49,12 +49,13 @@ public class TSP {
         if (estVide(s)) return cout[i][0];
         if(memD[i][s] == -1)
         {
-            double min = 10000;
+            double min = Double.MAX_VALUE;
 
             for (int j=1; j<nbLivraisons; j++){
                 if (estElementDe(j,s)){
                     double d = calculeD(j, enleveElement(s,j));
                     if (cout[i][j] + d < min){
+                        System.out.println("i="+i);
                         memNext[i][s]=j;
                         min = cout[i][j] + d;
                     }
@@ -126,27 +127,30 @@ public class TSP {
 
     public static ArrayList<Tournee> calculerLesTournees(ArrayList<Livraison> livraisons, int nbrLivreur, Livraison entrepot){
         AlgoParcour algoParcour = new AlgoParcour();
+        ArrayList<Livraison> livraisonsEntrepot = new ArrayList<>(livraisons);
+        livraisons.add(entrepot);
 
         for (Livraison depart: livraisons) {
-            for (Livraison arrive: livraisons) {
-                if(depart != arrive) {
-                    Chemin chemin = algoParcour.calculChemin(depart, arrive);
-                    depart.addChemin(chemin);
-                }
-            }
+                   ArrayList<Chemin> chemin = algoParcour.calculChemin(depart, livraisonsEntrepot);
+                   depart.getChemins().addAll(chemin);
+
         }
-        for(Livraison livraison: livraisons){
-            Chemin cheminEntrepotLivraison = algoParcour.calculChemin(entrepot, livraison);
+
+        ArrayList<Chemin> chemin = algoParcour.calculChemin(entrepot, livraisonsEntrepot);
+        entrepot.getChemins().addAll(chemin);
+       /* for(Livraison livraison: livraisons){
+            Chemin cheminEntrepotLivraison = algoParcour.calculChemin(entrepot, livraisons);
             Chemin cheminLivraisonEntrepot = algoParcour.calculChemin(livraison, entrepot);
 
             entrepot.addChemin(cheminEntrepotLivraison);
             livraison.addChemin(cheminLivraisonEntrepot);
-        }
+        }*/
 
         ArrayList<ArrayList<Livraison>> listeGroupeLivraisons = algoParcour.getLivraisons(livraisons, nbrLivreur);
 
         ArrayList<Tournee> listeTournee = new ArrayList<>();
-
+        System.out.println(entrepot.getChemins());
+        System.out.println(livraisons);
         for (ArrayList<Livraison> livraisonTournee: listeGroupeLivraisons){
             Tournee tournee = TSP.calculerTournee(livraisonTournee, entrepot);
             listeTournee.add(tournee);
